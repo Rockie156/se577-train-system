@@ -1,6 +1,6 @@
 package edu.drexel.TrainDemo.repositories;
 
-import edu.drexel.TrainDemo.models.Route;
+import edu.drexel.TrainDemo.trips.models.Route;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

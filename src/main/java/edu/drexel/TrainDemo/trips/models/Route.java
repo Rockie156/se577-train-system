@@ -1,25 +1,21 @@
-package edu.drexel.TrainDemo.models;
+package edu.drexel.TrainDemo.trips.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class Agency {
+public class Route {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private RouteType routeType;
     private String externalUrl;
 
-    protected Agency() {
-    }
+    @ManyToOne
+    private Agency agency;
 
-    public Agency(String name, String externalUrl) {
-        this.name = name;
-        this.externalUrl = externalUrl;
+    protected Route() {
     }
 
     public Long getId() {
@@ -30,16 +26,26 @@ public class Agency {
         return name;
     }
 
+    public RouteType getRouteType() {
+        return routeType;
+    }
+
     public String getExternalUrl() {
         return externalUrl;
     }
 
+    public Agency getAgency() {
+        return agency;
+    }
+
     @Override
     public String toString() {
-        return "Agency{" +
+        return "Route{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", routeType=" + routeType +
                 ", externalUrl='" + externalUrl + '\'' +
+                ", agency=" + agency +
                 '}';
     }
 }
