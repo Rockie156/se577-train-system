@@ -1,4 +1,4 @@
-package edu.drexel.TrainDemo.controllers;
+package edu.drexel.TrainDemo.user.controllers;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
