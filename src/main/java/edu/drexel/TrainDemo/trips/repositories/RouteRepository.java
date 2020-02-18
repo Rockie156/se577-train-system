@@ -1,4 +1,4 @@
-package edu.drexel.TrainDemo.repositories;
+package edu.drexel.TrainDemo.trips.repositories;
 
 import edu.drexel.TrainDemo.trips.models.Route;
 import org.springframework.data.repository.CrudRepository;
