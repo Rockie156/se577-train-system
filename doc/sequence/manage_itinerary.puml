@@ -1,0 +1,65 @@
+@startuml
+title Manage Itineraries
+
+' Move views and models together through order of declaration
+
+autoactivate on
+actor "Browser" as C
+participant "Spring Boot Framework" as SBF
+
+' precondition: admin is logged in
+
+==View Itineraries As Admin==
+' Returns all trips in a view
+C -> SBF : GET("/admin/trip/view")
+SBF -> TripController : getAllTrips()
+TripController -> TripModel : getAll()
+return List<Trip>
+return List<Trip>
+SBF -> TripView : getTripsView()
+return TripsView
+return HTTP Response
+
+==Add Stop==
+note left of SBF
+Admin views a particular
+route
+They select a station
+from a drop down
+and add a station to
+the end of a route as a stop
+end note
+C -> SBF : POST("/admin/trip/stop")
+SBF -> TripController : addStop(RouteID, StationID)
+TripController -> RouteModel : addStop(StationID)
+RouteModel -> DB : addStop(RouteID, StationID)
+return
+return Route
+return Route
+return HTTP Response
+
+==Manage Available Tickets==
+note left of SBF
+Managing occurs when trains
+have seat number modified
+end note
+C -> SBF :POST("admin/trip/train")
+SBF -> TripController : updateTrain(trainID)
+TripController -> TrainModel : update()
+TrainModel -> DB : update()
+return
+return Train
+return Train
+
+return HTTP Response
+
+==Edit Route Info==
+C -> SBF : POST("admin/trip/route")
+SBF -> TripController : updateRoute(routeID)
+TripController -> RouteModel : update()
+RouteModel -> DB : update()
+return
+return Route
+return Route
+return HTTP Response
+@enduml
