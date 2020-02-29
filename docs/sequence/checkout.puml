@@ -1,0 +1,40 @@
+@startuml
+title Checkout Sequence
+hide footbox
+autoactivate on
+
+actor "Browser" as client
+participant "Spring Boot Framework" as SB
+client -> SB : POST("/shop/checkout")
+
+== Customer Interaction ==
+SB -> CustomerController : getCurrentCustomer()
+   CustomerController -> UserService : getRegisteredUser()
+   return registeredUser
+alt registeredUser == NULL
+   CustomerController -> CustomerController : createGuest()
+   return guestCustomer
+end
+return customerData
+
+== Shopping Cart Interaction ==
+SB -> ShoppingCartController : getShoppingCart()
+ShoppingCartController -> ShoppingCartController : session.getCartItems()
+return cartItems
+alt cart == NULL
+   ShoppingCartController -> DataStore : getCachedCartItems(User)
+   return cartItems
+end
+return cartItems
+
+== Check Out Interaction ==
+SB -> CheckOutController : checkout(customerData, shoppingCartData)
+CheckOutController -> StripePaymentService : completePayment(Billing)
+StripePaymentService -> Stripe : processPayment(Billing)
+return
+return
+return model
+SB -> CheckoutView : getSuccessfulCheckOutView()
+return Template
+return HTTP Response
+@enduml
