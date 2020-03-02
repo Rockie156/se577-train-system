@@ -8,6 +8,13 @@ SBF *-- CustomerController
 SBF *-- CheckOutController
 ShoppingCartController *-- ShoppingCart
 
+class ShoppingCartController {
+getShoppingCart() : ShoppingCart
+}
+
+class DataStore {
+getCachedCartItems() : ShoppingCart
+}
 
 class ShoppingCart {
 __
@@ -16,7 +23,8 @@ getCartContents() : List<Items>
 
 class CustomerController {
 __
-'getCurrentCustomer() : Customer
+getCurrentCustomer() : Customer
+createGuest() : Customer
 }
 
 class Customer {
@@ -27,7 +35,7 @@ getDeliveryIfo() : DeliveryInfo
 
 class UserService {
 __
-getSignedInUser() User
+getRegisteredUser() User
 }
 
 User -up-|> Customer
@@ -40,8 +48,17 @@ __
 checkout() : void
 }
 
+class CheckOutModel {
+__
+checkout() : void
+}
 interface PaymentService {
 completePayment() : void
+}
+
+class CheckOutView {
+getSuccessfulCheckOutView() : Template
+getFailureCheckOutView() : Template
 }
 
 StripePaymentService .up.|> PaymentService

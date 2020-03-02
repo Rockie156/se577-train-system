@@ -51,15 +51,20 @@ return
 return
 return
 return model
-SB -> CheckOutView : getSuccessfulCheckOutView()
-note left
-Exact interaction between
-Spring Boot Framework
-and Views
-(observers or pub/sub)
-are hidden within
-Spring Boot
-end note
+alt model.successfulCheckOut
+   SB -> CheckOutView : getSuccessfulCheckOutView()
+   note right
+      Exact interaction between Spring Boot Framework
+       and Views (observers or pub/sub) are hidden
+       within Spring Boot
+    end note
+
 return Template
+else
+   SB -> CheckOutView : getFailureCheckOutView()
+   return Template
+
+end
+
 return HTTP Response
 @enduml
