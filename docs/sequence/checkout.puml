@@ -5,12 +5,27 @@ autoactivate on
 
 actor "Browser" as client
 participant "Spring Boot Framework" as SB
+participant CustomerController
+participant UserService
+participant ShoppingCartController
+participant DataStore
+participant CheckOutController
+participant CheckOutView
+
+
+
 client -> SB : POST("/shop/checkout")
 
 == Customer Interaction ==
 SB -> CustomerController : getCurrentCustomer()
-   CustomerController -> UserService : getRegisteredUser()
-   return registeredUser
+note left
+Exact interaction between
+Spring Boot Framework
+and Controllers hidden
+within Spring Boot
+end note
+CustomerController -> UserService : getRegisteredUser()
+return registeredUser
 alt registeredUser == NULL
    CustomerController -> CustomerController : createGuest()
    return guestCustomer
@@ -29,12 +44,22 @@ return cartItems
 
 == Check Out Interaction ==
 SB -> CheckOutController : checkout(customerData, shoppingCartData)
-CheckOutController -> StripePaymentService : completePayment(Billing)
+CheckOutController -> CheckOutModel : checkout(customerData, shoppingCartData)
+CheckOutModel -> StripePaymentService : completePayment(Billing)
 StripePaymentService -> Stripe : processPayment(Billing)
 return
 return
+return
 return model
-SB -> CheckoutView : getSuccessfulCheckOutView()
+SB -> CheckOutView : getSuccessfulCheckOutView()
+note left
+Exact interaction between
+Spring Boot Framework
+and Views
+(observers or pub/sub)
+are hidden within
+Spring Boot
+end note
 return Template
 return HTTP Response
 @enduml

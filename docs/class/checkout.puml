@@ -1,0 +1,57 @@
+@startuml
+
+title Checkout Class Diagram
+
+class "Sprint Boot Framework" as SBF
+SBF *-- ShoppingCartController
+SBF *-- CustomerController
+SBF *-- CheckOutController
+ShoppingCartController *-- ShoppingCart
+
+
+class ShoppingCart {
+__
+getCartContents() : List<Items>
+}
+
+class CustomerController {
+__
+'getCurrentCustomer() : Customer
+}
+
+class Customer {
+__
+getPaymentInfo() : PaymentInfo
+getDeliveryIfo() : DeliveryInfo
+}
+
+class UserService {
+__
+getSignedInUser() User
+}
+
+User -up-|> Customer
+CustomerController *-- UserService
+CustomerController *-- Customer
+UserService--> User
+
+class CheckOutController {
+__
+checkout() : void
+}
+
+interface PaymentService {
+completePayment() : void
+}
+
+StripePaymentService .up.|> PaymentService
+PaypalPaymentService .up.|> PaymentService
+
+CheckOutController *-- PaymentService
+CheckOutController *-- CheckOutModel
+CheckOutController *-- CheckOutView
+CheckOutView ..> CheckOutModel
+'ObserverPattern or Pub/Sub needed to be added...
+'  if someone else buys last item, shopping cart should be updated...
+'View may need to be updated
+@enduml
