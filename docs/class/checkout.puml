@@ -12,13 +12,12 @@ class ShoppingCartController {
 getShoppingCart() : ShoppingCart
 }
 
+ShoppingCart ..> DataStore
 class DataStore {
-getCachedCartItems() : ShoppingCart
+getCachedCartItems(User user) : ShoppingCart
 }
 
 class ShoppingCart {
-__
-getCartContents() : List<Items>
 }
 
 class CustomerController {
@@ -30,8 +29,11 @@ createGuest() : Customer
 class Customer {
 __
 getPaymentInfo() : PaymentInfo
-getDeliveryIfo() : DeliveryInfo
+getDeliveryInfo() : DeliveryInfo
+getBillingInfo() : BillingInfo
 }
+
+Customer *-- BillingInfo
 
 class UserService {
 __
@@ -45,7 +47,7 @@ UserService--> User
 
 class CheckOutController {
 __
-checkout() : void
+checkout(ShoppingCart cartItems, Customer customerData) : void
 }
 
 class CheckOutModel {

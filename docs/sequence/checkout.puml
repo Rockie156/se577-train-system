@@ -46,8 +46,7 @@ return cartItems
 SB -> CheckOutController : checkout(customerData, shoppingCartData)
 CheckOutController -> CheckOutModel : checkout(customerData, shoppingCartData)
 CheckOutModel -> StripePaymentService : completePayment(Billing)
-StripePaymentService -> Stripe : processPayment(Billing)
-return
+
 return
 return
 return model
