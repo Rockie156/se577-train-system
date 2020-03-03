@@ -1,0 +1,82 @@
+@startuml
+class SpringBootFramework {
+
+}
+SpringBootFramework o-- TripController
+
+class TripController {
+    +getAllTrips(): model
+    +addStop(HTTPRequest): model
+}
+TripController o-- RouteModel
+TripController o-- TrainModel
+TripController o-- RouteView
+
+class RouteModel {
+    +getAllTrips(): List<Route>
+    +addStop(int: routeId, int: stationId, int: stopId,
+    \tDateTime: departureTime, DateTime: arrivalTime): Route
+}
+RouteModel .> Route
+
+class TrainModel {
+    +update(Train)
+}
+TrainModel .> Train
+
+class RouteView {
+    +getRoutesView(): Template
+    +getRouteView(): Template
+}
+
+class Route {
+    -stops: List<Stop>
+    -daysRunning: List<DayOfWeek>
+    +getTrain(): Train
+    +getDaysRunning: List<DayOfWeek>
+    +getDepartureTime(): DateTime
+    +getArrivalTime(): DateTime
+}
+Route o-- Stop
+
+class Stop {
+    -source: Station
+    -destination: Station
+    -train: Train
+    -departureTime: DateTime
+    -arrivalTime: DateTime
+    +getDepartureStation(): Station
+    +getArrivalStation(): Station
+    +getTrain(): Train
+    +getDepartureTime(): DateTime
+    +getArrivalTime(): DateTime
+}
+Stop o-- Station
+Stop o-- Train
+
+class Station {
+    -state: String
+    -stateCode: String
+    -stationName: String
+    -stationCode: String
+    +Station(String, String, String, String)
+    +getState(): String
+    +getStateCode(): String
+    +getName(): String
+}
+
+class Train {
+    -name: String
+    -classes: List<Class>
+    -seats: List<int>
+    +getName(): String
+    +getClasses(): List<String>
+}
+Train o-- Class
+
+class Class {
+    -coachName: String
+    +Coach(String)
+    +getCoachName(): String
+}
+@enduml

@@ -1,13 +1,19 @@
 @startuml
 title Manage Itineraries
 
-' Move views and models together through order of declaration
-
 autoactivate on
 actor "Browser" as C
 participant "Spring Boot Framework" as SBF
+participant TripController
+participant RouteModel
+participant TrainModel
+participant RouteView as TripView
+participant DB
 
-' precondition: admin is logged in
+note left of SBF
+precondition:
+admin is logged in
+end note
 
 ==View Itineraries As Admin==
 note left of SBF
@@ -17,12 +23,14 @@ admin page and then selects
 end note
 ' Returns all trips in a view
 C -> SBF : GET("/admin/trip/view")
-SBF -> TripController : getAllTrips()
-TripController -> TripModel : getAllTrips()
-return List<Trip>
-return List<Trip>
-SBF -> TripView : getTripsView()
-return TripsView
+SBF -> TripController : getAllRoutes()
+TripController -> RouteModel : getAllRoutes()
+RouteModel -> DB: execute()
+return
+return List<Route>
+return List<Route>
+SBF -> TripView : getRoutesView()
+return Template
 return HTTP Response
 
 ==Add Stop==
@@ -36,27 +44,30 @@ the end of a route as a stop
 end note
 C -> SBF : POST("/admin/trip/stop")
 SBF -> TripController : addStop(RouteID, StationID)
-TripController -> RouteModel : addStop(StationID)
-RouteModel -> DB : addStop(RouteID, StationID)
+TripController -> RouteModel : addStop(int, int, int, DateTime, DateTime)
+RouteModel -> DB : execute()
 return
 return Route
 return Route
+SBF -> TripView : getRouteView()
+return Template
 return HTTP Response
 
 ==Manage Available Tickets==
 note left of SBF
-Admin navigates to "Manage Trip"
-selects a trip
-then
+Admin navigates to "Manage Trains"
+Selects a train
+updates seats for the classes
 end note
-C -> SBF :POST("admin/trip/train")
+C -> SBF :POST("/admin/trip/train")
 SBF -> TripController : updateTrain(trainID)
-TripController -> TrainModel : update()
+TripController -> TrainModel : update(Train)
 TrainModel -> DB : update()
 return
 return Train
 return Train
-
+SBF -> TripView : getRouteView()
+return Template
 return HTTP Response
 
 ==Edit Route Info==
@@ -65,12 +76,14 @@ Admin changes the departure time
 of a train at a particular station
 on a particular route
 end note
-C -> SBF : POST("admin/trip/route")
+C -> SBF : POST("/admin/trip/route")
 SBF -> TripController : updateRoute(routeID)
 TripController -> RouteModel : update()
 RouteModel -> DB : update()
 return
 return Route
 return Route
+SBF -> TripView : getRouteView()
+return Template
 return HTTP Response
 @enduml
