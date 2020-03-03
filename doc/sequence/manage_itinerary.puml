@@ -10,10 +10,15 @@ participant "Spring Boot Framework" as SBF
 ' precondition: admin is logged in
 
 ==View Itineraries As Admin==
+note left of SBF
+Admin navigates to the
+admin page and then selects
+"view trips"
+end note
 ' Returns all trips in a view
 C -> SBF : GET("/admin/trip/view")
 SBF -> TripController : getAllTrips()
-TripController -> TripModel : getAll()
+TripController -> TripModel : getAllTrips()
 return List<Trip>
 return List<Trip>
 SBF -> TripView : getTripsView()
@@ -40,8 +45,9 @@ return HTTP Response
 
 ==Manage Available Tickets==
 note left of SBF
-Managing occurs when trains
-have seat number modified
+Admin navigates to "Manage Trip"
+selects a trip
+then
 end note
 C -> SBF :POST("admin/trip/train")
 SBF -> TripController : updateTrain(trainID)
@@ -54,6 +60,11 @@ return Train
 return HTTP Response
 
 ==Edit Route Info==
+note left of SBF
+Admin changes the departure time
+of a train at a particular station
+on a particular route
+end note
 C -> SBF : POST("admin/trip/route")
 SBF -> TripController : updateRoute(routeID)
 TripController -> RouteModel : update()
