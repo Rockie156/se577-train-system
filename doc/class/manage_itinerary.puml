@@ -1,6 +1,5 @@
 @startuml
 class SpringBootFramework {
-
 }
 SpringBootFramework o-- TripController
 
@@ -76,7 +75,7 @@ Train o-- Class
 
 class Class {
     -coachName: String
-    +Coach(String)
-    +getCoachName(): String
+    +Class(String)
+    +getClassName(): String
 }
 @enduml
