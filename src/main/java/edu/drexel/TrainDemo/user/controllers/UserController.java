@@ -1,6 +1,8 @@
 package edu.drexel.TrainDemo.user.controllers;
 
+import edu.drexel.TrainDemo.user.models.User;
 import edu.drexel.TrainDemo.user.repositories.UserRepository;
+import edu.drexel.TrainDemo.user.services.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +15,11 @@ import java.util.Map;
 public class UserController {
 
     private UserRepository repo;
+    private UserService service;
 
     public UserController(UserRepository repo) {
         this.repo = repo;
+        this.service = new UserService(repo);
     }
 
     @GetMapping("/user")
@@ -35,8 +39,10 @@ public class UserController {
 
     // DEBUG ENDPOINT
     @GetMapping("/user/test")
-    public String testUser() {
-        return repo.findByExternalId(1).toString();
+    public String testUser(@AuthenticationPrincipal OAuth2User principal) {
+        Integer id = principal.getAttribute("id");
+        String defaultName = principal.getAttribute("name");
+        return service.getOrCreateUser(id, defaultName).toString();
     }
 
 }
