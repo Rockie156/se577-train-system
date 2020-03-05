@@ -13,7 +13,7 @@ $.ajaxSetup({
 });
 
 $.get("/user", function (data) {
-    $("#profile-name").html(data.name.name);
+    $("#profile-name").html(data.name);
     $(".unauthenticated").hide();
     $(".authenticated").show();
 }).fail(function () {
