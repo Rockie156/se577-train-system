@@ -1,18 +1,28 @@
 package edu.drexel.TrainDemo.user.models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity(name="user_tbl")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "serial")
     private Long id;
     private String name;
     private String email;
+    @Column(unique = true)
     private long externalId;
 
-    protected User() {
+    public User() {
+    }
+
+    public User(String name, String email, long externalId) {
+        this.name = name;
+        this.email = email;
+        this.externalId = externalId;
     }
 
     public Long getId() {
@@ -37,7 +47,7 @@ public class User {
                 "id=" + id +
                 ", name='" + name + "\'" +
                 ", email='" + email + "\'" +
-                ", external_id='" + externalId +
+                ", external_id=" + externalId +
                 '}';
     }
 }
