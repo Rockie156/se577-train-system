@@ -19,7 +19,7 @@ public class UserViewController {
     @GetMapping("/user/manage")
     public String manageUser(@AuthenticationPrincipal OAuth2User principal, Model model) {
         User current = user.getUserInfo(principal);
-        model.addAttribute("user", current);
+        model.addAttribute("User", current);
         return "user/manage_user";
     }
 }

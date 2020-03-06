@@ -1,10 +1,8 @@
 package edu.drexel.TrainDemo.user.models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
-@Entity(name="user_tbl")
+@Entity(name = "user_tbl")
 public class User {
 
     @Id
@@ -25,6 +23,11 @@ public class User {
         this.externalId = externalId;
     }
 
+    public User(Long id, String name, String email, long externalId) {
+        this(name, email, externalId);
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
@@ -33,8 +36,16 @@ public class User {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getEmail() {
         return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public long getExternalId() {

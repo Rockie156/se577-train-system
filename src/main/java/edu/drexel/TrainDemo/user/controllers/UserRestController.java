@@ -6,6 +6,8 @@ import edu.drexel.TrainDemo.user.services.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -24,4 +26,10 @@ public class UserRestController {
         return service.getOrCreateUser(id, defaultName);
     }
 
+    @PostMapping("/user/manage")
+    public String submitUserInfo(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute User newUserData) {
+        User originalUserData = getUserInfo(principal);
+        service.saveUser(originalUserData, newUserData);
+        return "ok";
+    }
 }

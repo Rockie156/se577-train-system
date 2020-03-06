@@ -1,26 +1,14 @@
 <!DOCTYPE HTML>
-<html>
-<!--<html xmlns:th="https://www.thymeleaf.org">-->
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" type="text/javascript"></script>
 </head>
 <body>
 <p>Manage User Profile templates</p>
-<form action="submit();" id="userProfileForm">
+<form action="#" id="userProfileForm" method="post" th:action="@{/user/manage}" th:object="${User}">
     <label>Name</label>
-    <!--    <input id="userName" name="name" th:field="*{name}" type="text"/>-->
+    <input id="userName" name="name" th:field="*{name}" type="text"/>
     <button>Submit</button>
 </form>
-<!--<script>-->
-<!--    $.get("/user", function (data) {-->
-<!--        $("#userName").val(data.name);-->
-<!--    });-->
-<!--</script>-->
-<!--<script>-->
-<!--    const submit = function () {-->
-<!--        $.post("/user/manage/submit", $('#userProfileForm').serialize())-->
-<!--        return true;-->
-<!--    }-->
-<!--</script>-->
 </body>
 </html>
