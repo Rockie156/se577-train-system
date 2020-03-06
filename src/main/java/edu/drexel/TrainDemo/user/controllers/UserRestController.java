@@ -30,6 +30,6 @@ public class UserRestController {
     public Object submitUserInfo(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute User newUserData) {
         User originalUserData = getUserInfo(principal);
         service.saveUser(originalUserData, newUserData);
-        return "Success";
+        return "<script>window.location.href = '/';</script>";
     }
 }
