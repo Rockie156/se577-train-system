@@ -5,7 +5,7 @@
 </head>
 <body>
 <p>Manage User Profile templates</p>
-<form action="#" id="userProfileForm" method="post" th:action="@{/user/manage}" th:object="${User}">
+<form action="#" id="userProfileForm" method="post" th:action="@{/user/manage/submit}" th:object="${User}">
     <label>Name</label>
     <input id="userName" name="name" th:field="*{name}" type="text"/>
     <button>Submit</button>

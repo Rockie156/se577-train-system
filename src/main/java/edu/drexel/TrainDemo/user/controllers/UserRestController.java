@@ -26,10 +26,10 @@ public class UserRestController {
         return service.getOrCreateUser(id, defaultName);
     }
 
-    @PostMapping("/user/manage")
-    public String submitUserInfo(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute User newUserData) {
+    @PostMapping("/user/manage/submit")
+    public Object submitUserInfo(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute User newUserData) {
         User originalUserData = getUserInfo(principal);
         service.saveUser(originalUserData, newUserData);
-        return "ok";
+        return "Success";
     }
 }
