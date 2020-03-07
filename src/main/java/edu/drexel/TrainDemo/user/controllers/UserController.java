@@ -34,6 +34,7 @@ public class UserController {
     public Object cancelUserInfo() {
         return "<script>window.location.href = '/';</script>";
     }
+
     @PostMapping("/user/manage/submit")
     @ResponseBody
     public Object submitUserInfo(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute User newUserData) {

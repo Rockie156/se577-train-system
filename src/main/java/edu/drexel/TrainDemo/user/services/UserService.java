@@ -26,12 +26,11 @@ public class UserService {
     }
 
     public User getUser(long externalId) {
-        List<User> matchingUsers = userRepository.findByExternalId(externalId);
-        // TODO what if more than 1 user match
-        if (matchingUsers.size() != 1) {
-            return null;
+        Optional<User> matchingUsers = userRepository.findByExternalId(externalId);
+        if (matchingUsers.isPresent()) {
+            return matchingUsers.get();
         }
-        return matchingUsers.get(0);
+        return null;
     }
 
     public User createUser(long externalId, String name) {
