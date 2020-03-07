@@ -1,9 +1,10 @@
 package edu.drexel.TrainDemo.trips.models;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.math.BigDecimal;
 
-@Entity(name="stop")
+@Entity(name = "stop")
 public class Station {
 
     @Id
@@ -15,13 +16,36 @@ public class Station {
     protected Station() {
     }
 
+    public Station(String id, String name, BigDecimal lat, BigDecimal lon) {
+        this.id = id;
+        this.name = name;
+        this.lat = lat;
+        this.lon = lon;
+    }
+
     @Override
     public String toString() {
         return "Station{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", lat=" + lat +
                 ", lon=" + lon +
                 '}';
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BigDecimal getLat() {
+        return lat;
+    }
+
+    public BigDecimal getLon() {
+        return lon;
     }
 }

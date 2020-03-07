@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<body>
+<p>Search Trips</p>
+<!--/*@thymesVar id="TripSearchRequest" type="edu.drexel.TrainDemo.trips.models.derived.TripSearchRequest"*/-->
+<form action="#" id="userProfileForm" method="post" th:action="@{/trips/search/submit}"
+      th:object="${TripSearchRequest}">
+    <label>From</label>
+    <select th:field="*{from}">
+        <option value="">Select From</option>
+        <option th:each="station: ${allStations}" th:text="${station.id} + ': ' + ${station.name}"
+                th:value="${station.id}"></option>
+    </select>
+    <button>Submit</button>
+</form>
+</body>
+</html>

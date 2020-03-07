@@ -4,7 +4,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" type="text/javascript"></script>
 </head>
 <body>
-<p>Manage User Profile templates</p>
+<p>Manage User Profile</p>
 <form action="#" id="userProfileForm" method="post" th:action="@{/user/manage/submit}" th:object="${User}">
     <label>Name</label>
     <input id="userName" name="name" th:field="*{name}" type="text"/>

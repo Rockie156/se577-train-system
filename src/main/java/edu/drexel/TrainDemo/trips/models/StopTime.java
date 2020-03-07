@@ -3,7 +3,7 @@ package edu.drexel.TrainDemo.trips.models;
 import javax.persistence.*;
 import java.sql.Time;
 
-@Entity(name="stop_time")
+@Entity(name = "stop_time")
 public class StopTime {
 
     @EmbeddedId
