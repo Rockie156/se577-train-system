@@ -10,12 +10,12 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class StopTimeIdentity implements Serializable {
+public class StopTimeEntityIdentity implements Serializable {
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id")
-    private Trip trip;
+    private TripEntity trip;
 
 
     @NotNull
@@ -33,7 +33,7 @@ public class StopTimeIdentity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StopTimeIdentity that = (StopTimeIdentity) o;
+        StopTimeEntityIdentity that = (StopTimeEntityIdentity) o;
         return stopSequence == that.stopSequence &&
                 trip.equals(that.trip);
     }

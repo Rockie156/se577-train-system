@@ -1,7 +1,7 @@
 package edu.drexel.TrainDemo.trips.controllers;
 
-import edu.drexel.TrainDemo.trips.models.Route;
-import edu.drexel.TrainDemo.trips.models.Station;
+import edu.drexel.TrainDemo.trips.models.RouteEntity;
+import edu.drexel.TrainDemo.trips.models.StationEntity;
 import edu.drexel.TrainDemo.trips.models.derived.TripSearchRequest;
 import edu.drexel.TrainDemo.trips.repositories.RouteRepository;
 import edu.drexel.TrainDemo.trips.repositories.StationRepository;
@@ -27,19 +27,19 @@ public class TripController {
 
     @GetMapping("/trips/routes")
     @ResponseBody
-    public List<Route> getAllRoutes() {
-        return (List<Route>) routeRepository.findAll();
+    public List<RouteEntity> getAllRoutes() {
+        return (List<RouteEntity>) routeRepository.findAll();
     }
 
     @RequestMapping("/trips/routes/{routeID}")
     @ResponseBody
-    public Optional<Route> getRouteByID(@PathVariable long routeID) {
+    public Optional<RouteEntity> getRouteByID(@PathVariable long routeID) {
         return routeRepository.findById(routeID);
     }
 
     @GetMapping("/trips/search")
     public String searchTrips(Model model) {
-        Iterable<Station> allStations = stationRepository.findAll();
+        Iterable<StationEntity> allStations = stationRepository.findAll();
         TripSearchRequest searchRequest = new TripSearchRequest();
 
         model.addAttribute("allStations", allStations);

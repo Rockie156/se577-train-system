@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity(name = "trip")
-public class Trip {
+public class TripEntity {
 
     @Id
     private long id;
@@ -13,6 +13,6 @@ public class Trip {
     private String headsign;
     private boolean direction;
 
-    protected Trip() {
+    protected TripEntity() {
     }
 }

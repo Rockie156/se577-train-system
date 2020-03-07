@@ -4,19 +4,19 @@ import javax.persistence.*;
 import java.sql.Time;
 
 @Entity(name = "stop_time")
-public class StopTime {
+public class StopTimeEntity {
 
     @EmbeddedId
-    private StopTimeIdentity id;
+    private StopTimeEntityIdentity id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stop_id")
-    private Station station;
+    private StationEntity station;
 
     private Time arrivalTime;
     private Time departureTime;
 
-    protected StopTime() {
+    protected StopTimeEntity() {
 
     }
 

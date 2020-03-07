@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import java.math.BigDecimal;
 
 @Entity(name = "stop")
-public class Station {
+public class StationEntity {
 
     @Id
     private String id;
@@ -13,10 +13,10 @@ public class Station {
     private BigDecimal lat;
     private BigDecimal lon;
 
-    protected Station() {
+    protected StationEntity() {
     }
 
-    public Station(String id, String name, BigDecimal lat, BigDecimal lon) {
+    public StationEntity(String id, String name, BigDecimal lat, BigDecimal lon) {
         this.id = id;
         this.name = name;
         this.lat = lat;
