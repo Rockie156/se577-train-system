@@ -1,4 +1,4 @@
-package edu.drexel.TrainDemo.trips.models;
+package edu.drexel.TrainDemo.trips.models.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

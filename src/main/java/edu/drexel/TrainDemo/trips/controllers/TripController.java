@@ -1,11 +1,12 @@
 package edu.drexel.TrainDemo.trips.controllers;
 
-import edu.drexel.TrainDemo.trips.models.RouteEntity;
-import edu.drexel.TrainDemo.trips.models.StationEntity;
-import edu.drexel.TrainDemo.trips.models.derived.Itinerary;
-import edu.drexel.TrainDemo.trips.models.derived.TripSearchRequest;
+import edu.drexel.TrainDemo.trips.models.Itinerary;
+import edu.drexel.TrainDemo.trips.models.TripSearchRequest;
+import edu.drexel.TrainDemo.trips.models.entities.RouteEntity;
+import edu.drexel.TrainDemo.trips.models.entities.StationEntity;
 import edu.drexel.TrainDemo.trips.repositories.RouteRepository;
 import edu.drexel.TrainDemo.trips.repositories.StationRepository;
+import edu.drexel.TrainDemo.trips.repositories.TripRepository;
 import edu.drexel.TrainDemo.trips.services.TripService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +21,10 @@ public class TripController {
     private StationRepository stationRepository;
     private TripService tripService;
 
-    public TripController(RouteRepository routeRepository, StationRepository stationRepository) {
+    public TripController(RouteRepository routeRepository, StationRepository stationRepository, TripRepository tripRepository) {
         this.routeRepository = routeRepository;
         this.stationRepository = stationRepository;
-        this.tripService = new TripService(stationRepository);
+        this.tripService = new TripService(stationRepository, tripRepository);
     }
 
     @GetMapping("/trips/routes")

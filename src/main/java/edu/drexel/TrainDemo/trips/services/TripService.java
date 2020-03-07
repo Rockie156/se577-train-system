@@ -1,9 +1,10 @@
 package edu.drexel.TrainDemo.trips.services;
 
-import edu.drexel.TrainDemo.trips.models.StationEntity;
-import edu.drexel.TrainDemo.trips.models.derived.Itinerary;
-import edu.drexel.TrainDemo.trips.models.derived.TripSearchRequest;
+import edu.drexel.TrainDemo.trips.models.Itinerary;
+import edu.drexel.TrainDemo.trips.models.TripSearchRequest;
+import edu.drexel.TrainDemo.trips.models.entities.StationEntity;
 import edu.drexel.TrainDemo.trips.repositories.StationRepository;
+import edu.drexel.TrainDemo.trips.repositories.TripRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +12,11 @@ import java.util.Optional;
 
 public class TripService {
     private StationRepository stationRepository;
+    private TripRepository tripRepository;
 
-    public TripService(StationRepository stationRepository) {
+    public TripService(StationRepository stationRepository, TripRepository tripRepository) {
         this.stationRepository = stationRepository;
+        this.tripRepository = tripRepository;
     }
 
     public List<Itinerary> getMatchingTrips(TripSearchRequest searchRequest) {

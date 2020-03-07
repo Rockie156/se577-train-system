@@ -1,4 +1,4 @@
-package edu.drexel.TrainDemo.trips.models.derived;
+package edu.drexel.TrainDemo.trips.models;
 
 public class TripSearchRequest {
     private String from;

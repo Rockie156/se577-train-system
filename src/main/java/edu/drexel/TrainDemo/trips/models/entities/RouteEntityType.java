@@ -1,4 +1,4 @@
-package edu.drexel.TrainDemo.trips.models;
+package edu.drexel.TrainDemo.trips.models.entities;
 
 public enum RouteEntityType {
     UNKNOWN_A,

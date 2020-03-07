@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <body>
 <p>Search Trips</p>
-<!--/*@thymesVar id="TripSearchRequest" type="edu.drexel.TrainDemo.trips.models.derived.TripSearchRequest"*/-->
+<!--/*@thymesVar id="TripSearchRequest" type="edu.drexel.TrainDemo.trips.models.TripSearchRequest"*/-->
 <form action="#" id="userProfileForm" method="post" th:action="@{/trips/search/submit}"
       th:object="${TripSearchRequest}">
     <label>From</label>

@@ -1,6 +1,6 @@
-package edu.drexel.TrainDemo.trips.models.derived;
+package edu.drexel.TrainDemo.trips.models;
 
-import edu.drexel.TrainDemo.trips.models.StationEntity;
+import edu.drexel.TrainDemo.trips.models.entities.StationEntity;
 
 public class Itinerary {
     private StationEntity from;
