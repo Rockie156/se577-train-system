@@ -23,7 +23,7 @@ public class TripController {
     public TripController(RouteRepository routeRepository, StationRepository stationRepository) {
         this.routeRepository = routeRepository;
         this.stationRepository = stationRepository;
-        this.tripService = new TripService();
+        this.tripService = new TripService(stationRepository);
     }
 
     @GetMapping("/trips/routes")
@@ -50,10 +50,9 @@ public class TripController {
     }
 
     @PostMapping("/trips/search/submit")
-    @ResponseBody
-    public String submitSearchTrips(@ModelAttribute TripSearchRequest searchRequest) {
+    public String submitSearchTrips(@ModelAttribute TripSearchRequest searchRequest, Model model) {
         List<Itinerary> resultTrips = tripService.getMatchingTrips(searchRequest);
-
-        return "Hello, World!";
+        model.addAttribute("SearchResult", resultTrips);
+        return "trips/search_trip_result";
     }
 }
