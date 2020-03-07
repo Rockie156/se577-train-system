@@ -16,6 +16,8 @@
 
     <properties>
         <java.version>8</java.version>
+        <spring.profiles.active>default</spring.profiles.active>
+        <spring.jpa.open-in-view>true</spring.jpa.open-in-view>
     </properties>
 
     <dependencies>
