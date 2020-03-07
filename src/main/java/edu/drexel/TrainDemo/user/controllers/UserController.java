@@ -29,6 +29,11 @@ public class UserController {
         return service.getOrCreateUser(id, defaultName);
     }
 
+    @PostMapping("/user/manage/cancel")
+    @ResponseBody
+    public Object cancelUserInfo() {
+        return "<script>window.location.href = '/';</script>";
+    }
     @PostMapping("/user/manage/submit")
     @ResponseBody
     public Object submitUserInfo(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute User newUserData) {
