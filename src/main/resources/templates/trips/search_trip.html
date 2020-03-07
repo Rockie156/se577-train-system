@@ -11,6 +11,12 @@
         <option th:each="station: ${allStations}" th:text="${station.id} + ': ' + ${station.name}"
                 th:value="${station.id}"></option>
     </select>
+    <label>To</label>
+    <select th:field="*{to}">
+        <option value="">Select To</option>
+        <option th:each="station: ${allStations}" th:text="${station.id} + ': ' + ${station.name}"
+                th:value="${station.id}"></option>
+    </select>
     <button>Submit</button>
 </form>
 </body>

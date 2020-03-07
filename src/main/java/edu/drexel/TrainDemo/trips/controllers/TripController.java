@@ -53,6 +53,6 @@ public class TripController {
     public String submitSearchTrips(@ModelAttribute TripSearchRequest searchRequest) {
         String result = searchRequest.getFrom();
         System.out.println(result);
-        return searchRequest.getFrom();
+        return searchRequest.getFrom() + ", " + searchRequest.getTo();
     }
 }
