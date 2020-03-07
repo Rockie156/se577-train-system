@@ -2,10 +2,11 @@ package edu.drexel.TrainDemo.trips.controllers;
 
 import edu.drexel.TrainDemo.trips.models.RouteEntity;
 import edu.drexel.TrainDemo.trips.models.StationEntity;
+import edu.drexel.TrainDemo.trips.models.derived.Itinerary;
 import edu.drexel.TrainDemo.trips.models.derived.TripSearchRequest;
 import edu.drexel.TrainDemo.trips.repositories.RouteRepository;
 import edu.drexel.TrainDemo.trips.repositories.StationRepository;
-import edu.drexel.TrainDemo.trips.repositories.StopTimeRepository;
+import edu.drexel.TrainDemo.trips.services.TripService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,14 +16,14 @@ import java.util.Optional;
 
 @Controller
 public class TripController {
-    private final RouteRepository routeRepository;
-    private final StopTimeRepository stopTimeRepository;
-    private final StationRepository stationRepository;
+    private RouteRepository routeRepository;
+    private StationRepository stationRepository;
+    private TripService tripService;
 
-    public TripController(RouteRepository routeRepository, StopTimeRepository stopTimeRepository, StationRepository stationRepository) {
+    public TripController(RouteRepository routeRepository, StationRepository stationRepository) {
         this.routeRepository = routeRepository;
         this.stationRepository = stationRepository;
-        this.stopTimeRepository = stopTimeRepository;
+        this.tripService = new TripService();
     }
 
     @GetMapping("/trips/routes")
@@ -51,8 +52,8 @@ public class TripController {
     @PostMapping("/trips/search/submit")
     @ResponseBody
     public String submitSearchTrips(@ModelAttribute TripSearchRequest searchRequest) {
-        String result = searchRequest.getFrom();
-        System.out.println(result);
-        return searchRequest.getFrom() + ", " + searchRequest.getTo();
+        List<Itinerary> resultTrips = tripService.getMatchingTrips(searchRequest);
+
+        return "Hello, World!";
     }
 }
