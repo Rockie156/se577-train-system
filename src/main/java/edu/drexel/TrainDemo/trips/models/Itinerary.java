@@ -1,21 +1,21 @@
 package edu.drexel.TrainDemo.trips.models;
 
-import edu.drexel.TrainDemo.trips.models.entities.StationEntity;
+import edu.drexel.TrainDemo.trips.models.entities.StopTimeEntity;
 
 public class Itinerary {
-    private StationEntity from;
-    private StationEntity to;
+    private StopTimeEntity from;
+    private StopTimeEntity to;
 
-    public Itinerary(StationEntity from, StationEntity to) {
+    public Itinerary(StopTimeEntity from, StopTimeEntity to) {
         this.from = from;
         this.to = to;
     }
 
-    public StationEntity getFrom() {
+    public StopTimeEntity getFrom() {
         return from;
     }
 
-    public StationEntity getTo() {
+    public StopTimeEntity getTo() {
         return to;
     }
 }

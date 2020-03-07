@@ -15,4 +15,8 @@ public class TripEntity {
 
     protected TripEntity() {
     }
+
+    public long getId() {
+        return id;
+    }
 }

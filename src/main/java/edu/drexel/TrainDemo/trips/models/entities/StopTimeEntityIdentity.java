@@ -21,6 +21,10 @@ public class StopTimeEntityIdentity implements Serializable {
     @NotNull
     private int stopSequence;
 
+    public TripEntity getTrip() {
+        return trip;
+    }
+
     @Override
     public String toString() {
         return "StopTimeIdentity{" +

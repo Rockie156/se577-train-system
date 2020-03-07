@@ -20,6 +20,14 @@ public class StopTimeEntity {
 
     }
 
+    public StopTimeEntityIdentity getId() {
+        return id;
+    }
+
+    public StationEntity getStation() {
+        return station;
+    }
+
     @Override
     public String toString() {
         return "Fake";

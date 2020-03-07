@@ -10,4 +10,6 @@ public interface StopTimeRepository extends CrudRepository<StopTimeEntity, StopT
 //    List<StationEntity> findByStation_Id
 
     List<StopTimeEntity> findByStation_Id(String stationId);
+
+    List<StopTimeEntity> findByTrip_Id(Long tripId);
 }
