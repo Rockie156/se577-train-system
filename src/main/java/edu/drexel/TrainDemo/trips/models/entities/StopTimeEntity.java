@@ -20,6 +20,10 @@ public class StopTimeEntity {
 
     }
 
+    public int getStopSequence() {
+        return getId().getStopSequence();
+    }
+
     public StopTimeEntityIdentity getId() {
         return id;
     }
@@ -28,15 +32,11 @@ public class StopTimeEntity {
         return station;
     }
 
-    @Override
-    public String toString() {
-        return "Fake";
-//        return "StopTime{" +
-//                "id={" + id +
-//                ", station=" + station +
-//                ", id=" + id +
-//                ", arrivalTime=" + arrivalTime +
-//                ", departureTime=" + departureTime +
-//                '}';
+    public Time getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public Time getDepartureTime() {
+        return departureTime;
     }
 }

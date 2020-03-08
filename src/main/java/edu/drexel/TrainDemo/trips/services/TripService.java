@@ -30,34 +30,39 @@ public class TripService {
         StationEntity toStation = safeGetStationFromId(toId);
         StationEntity fromStation = safeGetStationFromId(fromId);
 
-//        Itinerary result = new Itinerary(fromStation, toStation);
+        List<TripEntity> tripsThatContainOurFromStation =
+                tripRepository.findByStops_Station_Id(fromId);
+
+        List<TripEntity> tripsThatContainOurToStation =
+                tripRepository.findByStops_Station_Id(toId);
+
+        List<TripEntity> tripsThatContainBoth = tripsThatContainOurFromStation;
+        tripsThatContainBoth.retainAll(tripsThatContainOurToStation);
+
+
+        TripEntity[] validTrips = tripsThatContainBoth.stream().filter(
+                tripEntity ->
+                        tripEntity.getStopByStationId(fromId).getStopSequence() < tripEntity.getStopByStationId(toId).getStopSequence()
+        ).toArray(TripEntity[]::new);
+
         ArrayList<Itinerary> resultList = new ArrayList<>();
-//        resultList.add(result);
+        for (TripEntity trip : validTrips) {
+            StopTimeEntity fromStopTimeEntity = trip.getStopByStationId(fromId);
+            StopTimeEntity toStopTimeEntity = trip.getStopByStationId(toId);
 
-        Iterable<StopTimeEntity> stops = stopTimeRepository.findAll();
+            resultList.add(
+                    new Itinerary(
+                            trip,
+                            fromStation,
+                            toStation,
+                            fromStopTimeEntity.getDepartureTime(),
+                            toStopTimeEntity.getArrivalTime()
+                    )
+            );
 
-        List<TripEntity> tripsThatContainOurFromStation = new ArrayList<>();
-        for (StopTimeEntity stop : stops) {
-            if (stop.getStation().getId() == fromId) {
-                TripEntity currentTrip = stop.getId().getTrip();
-                tripsThatContainOurFromStation.add(currentTrip);
-            }
         }
 
-        List<TripEntity> tripsThatContainBoth = new ArrayList<>();
-
-        for (TripEntity trip : tripsThatContainOurFromStation) {
-            Long tripId = trip.getId();
-            for (StopTimeEntity stop : stopTimeRepository.findByTrip_Id(tripId)) {
-                if (stop.getStation().getId() == toId) {
-                    TripEntity currentTrip = stop.getId().getTrip();
-                    tripsThatContainBoth.add(currentTrip);
-                }
-            }
-        }
-        // TODO populate itinerary with StopTimeEntity
         return resultList;
-
     }
 
     private StationEntity safeGetStationFromId(String id) {

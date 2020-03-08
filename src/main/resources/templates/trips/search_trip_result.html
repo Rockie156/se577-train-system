@@ -1,17 +1,23 @@
 <!DOCTYPE HTML>
-<html xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <body>
 <p>Search Result</p>
 <table>
     <tr>
-        <th>TO station:</th>
-        <th>FROM station:</th>
+        <th>TRIP ID</th>
+        <th>TO station</th>
+        <th>DEPARTURE time</th>
+        <th>FROM station</th>
+        <th>ARRIVAL time</th>
         <th>Purchase</th>
     </tr>
     <th:block th:each="itinerary : ${SearchResult}">
         <tr>
-            <td th:text="${itinerary.from.name}">...</td>
-            <td th:text="${itinerary.to.name}">...</td>
+            <td th:text="${itinerary.trip.id}"></td>
+            <td th:text="${itinerary.from.name}"></td>
+            <td th:text="${itinerary.departure}"></td>
+            <td th:text="${itinerary.to.name}"></td>
+            <td th:text="${itinerary.arrival}"></td>
             <td><a href="#">Add to cart</a></td>
         </tr>
     </th:block>

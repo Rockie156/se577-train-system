@@ -1,7 +1,7 @@
 package edu.drexel.TrainDemo.trips.models.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "trip")
 public class TripEntity {
@@ -13,10 +13,24 @@ public class TripEntity {
     private String headsign;
     private boolean direction;
 
-    protected TripEntity() {
-    }
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trip_id")
+    private List<StopTimeEntity> stops;
 
     public long getId() {
         return id;
+    }
+
+    public List<StopTimeEntity> getStops() {
+        return stops;
+    }
+
+    public StopTimeEntity getStopByStationId(String stopId) {
+        for (StopTimeEntity stop : stops) {
+            if (stopId == stop.getStation().getId()) {
+                return stop;
+            }
+        }
+        return null;
     }
 }

@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface TripRepository extends CrudRepository<TripEntity, Long> {
 
-    @Query("SELECT t FROM trip t left join stop_time on stop_time.id.trip.id = t.id where stop_time.station.id =:stationId")
-    List<TripEntity> findByStation(@Param("stationId") String stationId);
+//    @Query("SELECT t FROM trip t WHERE :stationOneId in (t.stops) AND :stationTwoId in (t.stops)")
+//    List<TripEntity> findByStations(String stationOneId, String stationTwoId);
+
+    List<TripEntity> findByStops_Station_Id(String stationId);
 }

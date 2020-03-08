@@ -1,21 +1,42 @@
 package edu.drexel.TrainDemo.trips.models;
 
-import edu.drexel.TrainDemo.trips.models.entities.StopTimeEntity;
+import edu.drexel.TrainDemo.trips.models.entities.StationEntity;
+import edu.drexel.TrainDemo.trips.models.entities.TripEntity;
+
+import java.sql.Time;
 
 public class Itinerary {
-    private StopTimeEntity from;
-    private StopTimeEntity to;
+    private TripEntity trip;
+    private StationEntity from;
+    private StationEntity to;
+    private Time departure;
+    private Time arrival;
 
-    public Itinerary(StopTimeEntity from, StopTimeEntity to) {
+    public Itinerary(TripEntity trip, StationEntity from, StationEntity to, Time departure, Time arrival) {
+        this.trip = trip;
         this.from = from;
         this.to = to;
+        this.departure = departure;
+        this.arrival = arrival;
     }
 
-    public StopTimeEntity getFrom() {
+    public TripEntity getTrip() {
+        return trip;
+    }
+
+    public StationEntity getFrom() {
         return from;
     }
 
-    public StopTimeEntity getTo() {
+    public StationEntity getTo() {
         return to;
+    }
+
+    public Time getDeparture() {
+        return departure;
+    }
+
+    public Time getArrival() {
+        return arrival;
     }
 }
