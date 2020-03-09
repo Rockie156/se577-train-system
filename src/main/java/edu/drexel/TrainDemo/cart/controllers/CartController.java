@@ -8,10 +8,10 @@ import edu.drexel.TrainDemo.trips.repositories.StationRepository;
 import edu.drexel.TrainDemo.trips.repositories.TripRepository;
 import edu.drexel.TrainDemo.trips.services.TripService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
@@ -24,16 +24,43 @@ public class CartController {
     }
 
     @PostMapping("/cart/add")
-    @ResponseBody
-    public Itinerary addToCart(@ModelAttribute CartItem selectedCartItem) {
+    public String addToCart(HttpSession session, @ModelAttribute CartItem selectedCartItem) {
+        Cart shoppingCart = getOrCreateCart(session);
         Itinerary selectedItinerary = cartService.convertCartItemToItinerary(selectedCartItem);
-        return selectedItinerary;
+        fixObscureError(selectedItinerary);
+        shoppingCart.addItem(selectedItinerary);
+        session.setAttribute("ShoppingCart", shoppingCart);
+
+        return "redirect:/cart/view";
     }
 
     @GetMapping("/cart/view")
-    @ResponseBody
-    public Cart viewCart(HttpSession session) {
-        return (Cart) session.getAttribute(Cart.getShoppingCartConstant());
+    public String viewCart(HttpSession session, Model model) {
+        Cart shoppingCart = getOrCreateCart(session);
+        model.addAttribute("ShoppingCart", shoppingCart);
+
+        return "cart/view_cart";
+    }
+
+    private void fixObscureError(Itinerary foo) {
+        // DO NOT REMOVE
+        // GHOST OF JAVA SPRING BOOT
+        //   .-.
+        //  (o o) boo!
+        //  | O \
+        //   \   \
+        //    `~~~'
+        System.out.println(foo);
+    }
+
+    public Cart getOrCreateCart(HttpSession session) {
+        Cart shoppingCart = (Cart) session.getAttribute("ShoppingCart");
+
+        if (shoppingCart == null) {
+            shoppingCart = new Cart();
+        }
+
+        return shoppingCart;
     }
 
 }
