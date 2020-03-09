@@ -46,7 +46,7 @@ public class UserController {
     @GetMapping("/user/manage")
     public String manageUser(@AuthenticationPrincipal OAuth2User principal, Model model) {
         User current = getUserInfo(principal);
-        model.addAttribute("User", current);
+        model.addAttribute("CurrentUser", current);
         return "user/manage_user";
     }
 }
