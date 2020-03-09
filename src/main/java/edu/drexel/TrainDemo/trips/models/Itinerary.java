@@ -1,6 +1,7 @@
 package edu.drexel.TrainDemo.trips.models;
 
 import edu.drexel.TrainDemo.trips.models.entities.StationEntity;
+import edu.drexel.TrainDemo.trips.models.entities.StopTimeEntity;
 import edu.drexel.TrainDemo.trips.models.entities.TripEntity;
 
 import java.sql.Time;
@@ -18,6 +19,14 @@ public class Itinerary {
         this.to = to;
         this.departure = departure;
         this.arrival = arrival;
+    }
+
+    public Itinerary(TripEntity trip, StopTimeEntity from, StopTimeEntity to) {
+        this.trip = trip;
+        this.from = from.getStation();
+        this.to = to.getStation();
+        this.departure = from.getDepartureTime();
+        this.arrival = to.getArrivalTime();
     }
 
     public TripEntity getTrip() {

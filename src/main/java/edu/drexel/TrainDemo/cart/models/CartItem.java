@@ -3,14 +3,14 @@ package edu.drexel.TrainDemo.cart.models;
 import java.sql.Time;
 
 public class CartItem {
-    private String tripId;
+    private Long tripId;
     private String fromId;
     private String toId;
     private Time departure;
     private Time arrival;
 
 
-    public CartItem(String tripId, String fromId, String toId, Time departure, Time arrival) {
+    public CartItem(Long tripId, String fromId, String toId, Time departure, Time arrival) {
         this.tripId = tripId;
         this.fromId = fromId;
         this.toId = toId;
@@ -18,7 +18,7 @@ public class CartItem {
         this.arrival = arrival;
     }
 
-    public String getTripId() {
+    public Long getTripId() {
         return tripId;
     }
 

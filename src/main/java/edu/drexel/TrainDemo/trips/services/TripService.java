@@ -9,6 +9,7 @@ import edu.drexel.TrainDemo.trips.repositories.StationRepository;
 import edu.drexel.TrainDemo.trips.repositories.StopTimeRepository;
 import edu.drexel.TrainDemo.trips.repositories.TripRepository;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -63,6 +64,31 @@ public class TripService {
         }
 
         return resultList;
+    }
+
+    public Itinerary findItinerary(Long tripId, String fromId, String toId, Time departure, Time arrival) {
+        Optional<TripEntity> tripResult = tripRepository.findById(tripId);
+        if (!tripResult.isPresent()) {
+            throw new IllegalArgumentException();
+        }
+
+        TripEntity trip = tripResult.get();
+
+        Optional<StopTimeEntity> fromStopResult = trip.getStops().stream().filter(stop -> stop.getStation().getId().equals(fromId)).findFirst();
+        Optional<StopTimeEntity> toStopResult = trip.getStops().stream().filter(stop -> stop.getStation().getId().equals(toId)).findFirst();
+
+        if (!fromStopResult.isPresent() || !toStopResult.isPresent()) {
+            throw new IllegalArgumentException();
+        }
+
+        StopTimeEntity fromStop = fromStopResult.get();
+        StopTimeEntity toStop = toStopResult.get();
+
+        if (!fromStop.getDepartureTime().equals(departure) || !toStop.getArrivalTime().equals(arrival)) {
+            throw new IllegalArgumentException();
+        }
+
+        return new Itinerary(trip, fromStop, toStop);
     }
 
     private StationEntity safeGetStationFromId(String id) {
