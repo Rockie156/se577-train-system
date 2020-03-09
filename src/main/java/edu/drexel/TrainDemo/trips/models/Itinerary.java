@@ -48,4 +48,15 @@ public class Itinerary {
     public Time getArrival() {
         return arrival;
     }
+
+    @Override
+    public String toString() {
+        return "Itinerary{" +
+                "trip=" + trip +
+                ", from=" + from +
+                ", to=" + to +
+                ", departure=" + departure +
+                ", arrival=" + arrival +
+                '}';
+    }
 }

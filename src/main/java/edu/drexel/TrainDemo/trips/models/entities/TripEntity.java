@@ -33,4 +33,15 @@ public class TripEntity {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "TripEntity{" +
+                "id=" + id +
+                ", routeId=" + routeId +
+                ", calendarId=" + calendarId +
+                ", headsign='" + headsign + '\'' +
+                ", direction=" + direction +
+                '}';
+    }
 }
