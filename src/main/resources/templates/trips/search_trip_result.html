@@ -18,7 +18,20 @@
             <td th:text="${itinerary.departure}"></td>
             <td th:text="${itinerary.to.name}"></td>
             <td th:text="${itinerary.arrival}"></td>
-            <td><a href="#">Add to cart</a></td>
+
+            <td>
+                <!--/*@thymesVar id="cartItem" type="edu.drexel.TrainDemo.cart.models.CartItem"*/-->
+                <form th:action="@{/cart/add}"
+                      th:object="${cartItem}"
+                      method="post">
+                    <input hidden th:name="tripId" th:value="${itinerary.trip.id}"/>
+                    <input hidden th:name="fromId" th:value="${itinerary.from.id}"/>
+                    <input hidden th:name="toId" th:value="${itinerary.to.id}"/>
+                    <input hidden th:name="departure" th:value="${itinerary.departure}"/>
+                    <input hidden th:name="arrival" th:value="${itinerary.arrival}"/>
+                    <button type="submit">Add To Cart</button>
+                </form>
+            </td>
         </tr>
     </th:block>
 </table>
