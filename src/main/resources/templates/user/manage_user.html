@@ -8,10 +8,10 @@
 <!--/*@thymesVar id="CurrentUser" type="edu.drexel.TrainDemo.user.models.User"*/-->
 <form id="userProfileForm" method="post" th:action="@{/user/manage/submit}" th:object="${CurrentUser}">
     <label>Name</label>
-    <input id="userName" name="name" th:field="*{name}" type="text"/>
+    <input th:field="*{name}" type="text"/>
     <br/>
     <label>Email</label>
-    <input id="email" name="email" th:field="*{email}" type="text"/>
+    <input th:field="*{email}" type="text"/>
     <br/>
     <button>Submit</button>
 </form>
