@@ -29,10 +29,11 @@ public class UserController {
         return service.getOrCreateUser(id, defaultName);
     }
 
-    @PostMapping("/user/manage/cancel")
-    @ResponseBody
-    public Object cancelUserInfo() {
-        return "<script>window.location.href = '/';</script>";
+    @GetMapping("/user/manage")
+    public String manageUser(@AuthenticationPrincipal OAuth2User principal, Model model) {
+        User current = getUserInfo(principal);
+        model.addAttribute("CurrentUser", current);
+        return "user/manage_user";
     }
 
     @PostMapping("/user/manage/submit")
@@ -41,12 +42,5 @@ public class UserController {
         User originalUserData = getUserInfo(principal);
         service.saveUser(originalUserData, newUserData);
         return "<script>window.location.href = '/';</script>";
-    }
-
-    @GetMapping("/user/manage")
-    public String manageUser(@AuthenticationPrincipal OAuth2User principal, Model model) {
-        User current = getUserInfo(principal);
-        model.addAttribute("CurrentUser", current);
-        return "user/manage_user";
     }
 }
