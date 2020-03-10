@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" type="text/javascript"></script>
+</head>
+<body>
+<p>Checkout Form</p>
+<!--/*@thymesVar id="lastSuccessfulOrder" type="edu.drexel.TrainDemo.checkout.models.Order"*/-->
+<table th:object="${lastSuccessfulOrder}">
+    <tr>
+        <th colspan="2">Billing Information</th>
+    </tr>
+    <tr>
+        <th>Credit Card</th>
+        <td th:text="*{billing.creditCard}"/>
+    </tr>
+    <tr>
+        <th>Price</th>
+        <td>Free.99 + tax</td>
+    </tr>
+    <tr>
+        <th colspan="2">Cart Information</th>
+    </tr>
+    <th:block th:each="itinerary, iterator: *{cart.items}">
+        <tr>
+            <th>Item Number</th>
+            <td th:value="${iterator.count} + 1"/>
+        </tr>
+        <tr>
+            <th>From Station</th>
+            <td th:text="${itinerary.from.name}"/>
+        </tr>
+        <tr>
+            <th>Departure Time</th>
+            <td th:text="${itinerary.departure}"/>
+        </tr>
+        <tr>
+            <th>To Station</th>
+            <td th:text="${itinerary.to.name}"/>
+        </tr>
+        <tr>
+            <th>Arrival Time</th>
+            <td th:text="${itinerary.arrival}"/>
+        </tr>
+    </th:block>
+</table>
+</body>
+</html>
