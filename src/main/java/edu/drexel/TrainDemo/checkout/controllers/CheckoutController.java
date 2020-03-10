@@ -29,7 +29,7 @@ public class CheckoutController {
         CheckoutError error = (CheckoutError) model.getAttribute("error");
         model.addAttribute("CustomerBilling", new Billing());
         model.addAttribute("error", error);
-        return "checkout/show_form";
+        return "checkout/checkout_form";
     }
 
     @PostMapping("/checkout/submit")
@@ -47,6 +47,6 @@ public class CheckoutController {
         System.out.println("Billing Data: " + billingData);
         System.out.println("Order Data: " + newOrder);
         model.addAttribute("lastSuccessfulOrder", newOrder);
-        return "checkout/view_order";
+        return "checkout/checkout_success";
     }
 }
