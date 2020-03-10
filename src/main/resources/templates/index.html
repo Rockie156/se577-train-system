@@ -1,49 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-    <title>Train Ticket</title>
-    <meta content="" name="description"/>
-    <meta content="width=device-width" name="viewport"/>
-    <base href="/"/>
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css" rel="stylesheet"/>
-    <link href="/css/style.css" rel="stylesheet"/>
+    <th:block th:replace="/fragments/base :: header"/>
 </head>
 <body>
-
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">Train Ticket</a>
-    <button aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
-            data-target="#navbarsExampleDefault" data-toggle="collapse" type="button">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="ml-auto nav-item authenticated dropdown">
-                <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
-                   href="#" id="profile-name"></a>
-                <div aria-labelledby="profile-name" class="dropdown-menu">
-                    <a class="dropdown-item" href="/user/manage">Manage Profile</a>
-                    <a class="dropdown-item" href="#" onclick="logout()">Sign Out</a>
-                </div>
-            </li>
-            <li class="ml-auto nav-item unauthenticated">
-                <a class="nav-link" data-target="#signInModal" data-toggle="modal" href="#">Sign In</a>
-            </li>
-        </ul>
-    </div>
-</nav>
-
+<th:block th:replace="/fragments/base :: navbar"/>
 <main role="main">
     <div class="jumbotron">
         <div class="container">
@@ -54,7 +15,6 @@
             <a class="btn btn-primary btn-lg" href="/trips/search" role="button">Search</a>
         </div>
     </div>
-
     <div class="container">
         <div class="row">
             <div class="col-md-4">
@@ -80,7 +40,6 @@
             </div>
         </div>
     </div>
-
     <div aria-hidden="true" class="modal fade" id="signInModal" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -103,11 +62,8 @@
         </div>
     </div>
 </main>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"
-        type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.js" type="text/javascript"></script>
-<script src="/js/script.js" type="text/javascript"></script>
 </body>
+<footer>
+    <th:block th:replace="/fragments/base :: footer"/>
+</footer>
 </html>
