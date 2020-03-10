@@ -16,6 +16,10 @@ public class Billing {
         return creditCard;
     }
 
+    public void setCreditCard(String creditCard) {
+        this.creditCard = creditCard;
+    }
+
     @Override
     public String toString() {
         return "Billing{" +

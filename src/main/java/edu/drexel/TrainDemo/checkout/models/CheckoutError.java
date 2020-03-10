@@ -10,4 +10,11 @@ public class CheckoutError {
     public String getMessage() {
         return message;
     }
+
+    @Override
+    public String toString() {
+        return "CheckoutError{" +
+                "message='" + message + '\'' +
+                '}';
+    }
 }

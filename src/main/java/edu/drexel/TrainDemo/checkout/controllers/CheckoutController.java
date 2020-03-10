@@ -27,25 +27,21 @@ public class CheckoutController {
     @GetMapping("/checkout")
     public String viewCheckoutForm(Model model) {
         CheckoutError error = (CheckoutError) model.getAttribute("error");
-        model.addAttribute("CustomerBilling", new Billing());
         model.addAttribute("error", error);
+        model.addAttribute("CustomerBilling", new Billing("1234 5678 8888 8888"));
         return "checkout/checkout_form";
     }
 
     @PostMapping("/checkout/submit")
-    public String submitOrder(HttpSession session, @ModelAttribute Billing billingData, Model model, RedirectAttributes redirectAttributes) {
-        if (billingData.getCreditCard() == null) {
+    public String submitOrder(@ModelAttribute Billing billing, RedirectAttributes redirectAttributes, HttpSession session, Model model) {
+        if (billing.getCreditCard() == null) {
             redirectAttributes.addFlashAttribute("error", new CheckoutError("Did not receive billing information"));
             return "redirect:/checkout";
         }
         Cart cart = cartController.getOrCreateCart(session);
-        cart.getItems();
-        Order newOrder = new Order(cart, billingData);
+        Order newOrder = new Order(cart, billing);
         // saveOrder(newOrder);
         // resetCart(session);
-        System.out.println("Cart Data: " + cart);
-        System.out.println("Billing Data: " + billingData);
-        System.out.println("Order Data: " + newOrder);
         model.addAttribute("lastSuccessfulOrder", newOrder);
         return "checkout/checkout_success";
     }
