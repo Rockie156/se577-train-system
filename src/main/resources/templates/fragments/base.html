@@ -37,12 +37,19 @@
                        data-toggle="dropdown"
                        href="#" id="profile-name"></a>
                     <div aria-labelledby="profile-name" class="dropdown-menu">
+                        <a class="dropdown-item" href="/cart/view">View Cart</a>
                         <a class="dropdown-item" href="/user/manage">Manage Profile</a>
                         <a class="dropdown-item" href="#" onclick="logout()">Sign Out</a>
                     </div>
                 </li>
-                <li class="ml-auto nav-item unauthenticated">
-                    <a class="nav-link" data-target="#signInModal" data-toggle="modal" href="#">Sign In</a>
+                <li class="ml-auto nav-item unauthenticated dropdown">
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
+                       data-toggle="dropdown"
+                       href="#" id="unauthenticated-menu">Menu</a>
+                    <div aria-labelledby="unauthenticated-menu" class="dropdown-menu">
+                        <a class="dropdown-item" data-target="#signInModal" data-toggle="modal" href="#">Sign In</a>
+                        <a class="dropdown-item" href="/cart/view">View Cart</a>
+                    </div>
                 </li>
             </ul>
         </div>
