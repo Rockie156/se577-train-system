@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" type="text/javascript"></script>
+    <th:block th:replace="/fragments/base :: header"/>
 </head>
 <body>
-<p>Manage User Profile</p>
+<th:block th:replace="/fragments/base :: navbar"/>
+<h1>Manage User Profile</h1>
 <!--/*@thymesVar id="CurrentUser" type="edu.drexel.TrainDemo.user.models.User"*/-->
 <form id="userProfileForm" method="post" th:action="@{/user/manage/submit}" th:object="${CurrentUser}">
     <label>Name</label>
@@ -19,4 +20,7 @@
     <button>Cancel</button>
 </form>
 </body>
+<footer>
+    <th:block th:replace="/fragments/base :: footer"/>
+</footer>
 </html>

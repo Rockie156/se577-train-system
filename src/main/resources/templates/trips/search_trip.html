@@ -1,7 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/fragments/base :: header"/>
+</head>
 <body>
-<p>Search Trips</p>
+<th:block th:replace="/fragments/base :: navbar"/>
+<h1>Search Trips</h1>
 <!--/*@thymesVar id="TripSearchRequest" type="edu.drexel.TrainDemo.trips.models.TripSearchRequest"*/-->
 <form action="#" id="userProfileForm" method="post" th:action="@{/trips/search/submit}"
       th:object="${TripSearchRequest}">
@@ -20,4 +24,7 @@
     <button>Submit</button>
 </form>
 </body>
+<footer>
+    <th:block th:replace="/fragments/base :: footer"/>
+</footer>
 </html>

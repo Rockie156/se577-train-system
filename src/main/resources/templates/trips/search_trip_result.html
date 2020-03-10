@@ -1,6 +1,10 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/fragments/base :: header"/>
+</head>
 <body>
+<th:block th:replace="/fragments/base :: navbar"/>
 <p>Search Result</p>
 <table>
     <tr>
@@ -21,9 +25,9 @@
 
             <td>
                 <!--/*@thymesVar id="cartItem" type="edu.drexel.TrainDemo.cart.models.CartItem"*/-->
-                <form th:action="@{/cart/add}"
-                      th:object="${cartItem}"
-                      method="post">
+                <form method="post"
+                      th:action="@{/cart/add}"
+                      th:object="${cartItem}">
                     <input hidden th:name="tripId" th:value="${itinerary.trip.id}"/>
                     <input hidden th:name="fromId" th:value="${itinerary.from.id}"/>
                     <input hidden th:name="toId" th:value="${itinerary.to.id}"/>
@@ -36,4 +40,7 @@
     </th:block>
 </table>
 </body>
+<footer>
+    <th:block th:replace="/fragments/base :: footer"/>
+</footer>
 </html>

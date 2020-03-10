@@ -1,4 +1,7 @@
-.authenticated, .unauthenticated
-{
-    display:none;
+.authenticated, .unauthenticated {
+    display: none;
+}
+
+body {
+    padding-top: 60px;
 }

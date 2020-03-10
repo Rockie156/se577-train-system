@@ -1,10 +1,13 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" type="text/javascript"></script>
+    <th:block th:replace="/fragments/base :: header"/>
 </head>
 <body>
-<p>Checkout Form</p>
+<th:block th:replace="/fragments/base :: navbar"/>
+<h1>Checkout Form</h1>
+<!--/*@thymesVar id="error" type="edu.drexel.TrainDemo.checkout.models.CheckoutError"*/-->
+<div class="alert alert-danger" th:if="${error}" th:text="${error.message}"/>
 <!--/*@thymesVar id="CustomerBilling" type="edu.drexel.TrainDemo.checkout.models.Billing"*/-->
 <form id="userBillingForm" method="post" th:action="@{/checkout/submit}" th:object="${CustomerBilling}">
     <label>Credit Card</label>
@@ -12,7 +15,8 @@
     <br/>
     <button>Submit</button>
 </form>
-<!--/*@thymesVar id="error" type="edu.drexel.TrainDemo.checkout.models.CheckoutError"*/-->
-<div th:text="${error?.message}"></div>
 </body>
+<footer>
+    <th:block th:replace="/fragments/base :: footer"/>
+</footer>
 </html>
