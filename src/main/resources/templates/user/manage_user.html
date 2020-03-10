@@ -6,7 +6,7 @@
 <body>
 <p>Manage User Profile</p>
 <!--/*@thymesVar id="CurrentUser" type="edu.drexel.TrainDemo.user.models.User"*/-->
-<form action="#" id="userProfileForm" method="post" th:action="@{/user/manage/submit}" th:object="${CurrentUser}">
+<form id="userProfileForm" method="post" th:action="@{/user/manage/submit}" th:object="${CurrentUser}">
     <label>Name</label>
     <input id="userName" name="name" th:field="*{name}" type="text"/>
     <br/>

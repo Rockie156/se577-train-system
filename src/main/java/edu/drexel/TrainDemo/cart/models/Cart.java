@@ -20,11 +20,14 @@ public class Cart {
         return items;
     }
 
-    public static String getShoppingCartConstant() {
-       return "CART";
-    }
-
     public void addItem(Itinerary newItinerary) {
         items.add(newItinerary);
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "items=" + items +
+                '}';
     }
 }
