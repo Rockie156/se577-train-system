@@ -13,6 +13,10 @@ public class Itinerary {
     private Time departure;
     private Time arrival;
 
+    public Itinerary() {
+
+    }
+
     public Itinerary(TripEntity trip, StationEntity from, StationEntity to, Time departure, Time arrival) {
         this.trip = trip;
         this.from = from;
@@ -33,20 +37,40 @@ public class Itinerary {
         return trip;
     }
 
+    public void setTrip(TripEntity trip) {
+        this.trip = trip;
+    }
+
     public StationEntity getFrom() {
         return from;
+    }
+
+    public void setFrom(StationEntity from) {
+        this.from = from;
     }
 
     public StationEntity getTo() {
         return to;
     }
 
+    public void setTo(StationEntity to) {
+        this.to = to;
+    }
+
     public Time getDeparture() {
         return departure;
     }
 
+    public void setDeparture(Time departure) {
+        this.departure = departure;
+    }
+
     public Time getArrival() {
         return arrival;
+    }
+
+    public void setArrival(Time arrival) {
+        this.arrival = arrival;
     }
 
     @Override

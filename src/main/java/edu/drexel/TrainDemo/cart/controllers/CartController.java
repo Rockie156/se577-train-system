@@ -1,7 +1,6 @@
 package edu.drexel.TrainDemo.cart.controllers;
 
 import edu.drexel.TrainDemo.cart.models.Cart;
-import edu.drexel.TrainDemo.cart.models.CartItem;
 import edu.drexel.TrainDemo.cart.services.CartService;
 import edu.drexel.TrainDemo.trips.models.Itinerary;
 import edu.drexel.TrainDemo.trips.repositories.StationRepository;
@@ -24,11 +23,11 @@ public class CartController {
     }
 
     @PostMapping("/cart/add")
-    public String addToCart(HttpSession session, @ModelAttribute CartItem selectedCartItem) {
+    public String addToCart(HttpSession session, @ModelAttribute Itinerary selectedItinerary) {
         Cart shoppingCart = getOrCreateCart(session);
-        Itinerary selectedItinerary = cartService.convertCartItemToItinerary(selectedCartItem);
-        fixObscureError(selectedItinerary);
-        shoppingCart.addItem(selectedItinerary);
+        Itinerary safeSelectedItinerary = cartService.convertCartItemToItinerary(selectedItinerary);
+        fixObscureError(safeSelectedItinerary);
+        shoppingCart.addItem(safeSelectedItinerary);
         session.setAttribute("ShoppingCart", shoppingCart);
 
         return "redirect:/cart/view";

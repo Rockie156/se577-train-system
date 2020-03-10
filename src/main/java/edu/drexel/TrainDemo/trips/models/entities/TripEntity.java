@@ -21,6 +21,10 @@ public class TripEntity {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public List<StopTimeEntity> getStops() {
         return stops;
     }
