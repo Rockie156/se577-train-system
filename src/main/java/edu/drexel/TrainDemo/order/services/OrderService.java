@@ -23,7 +23,7 @@ public class OrderService {
         List<OrderItemEntity> items = new ArrayList<>();
 
         for (Itinerary itinerary : purchasedItinerary) {
-            OrderItemEntity item = new OrderItemEntity(itinerary.getTrip().getId());
+            OrderItemEntity item = new OrderItemEntity(itinerary.getTrip());
             items.add(item);
         }
 
