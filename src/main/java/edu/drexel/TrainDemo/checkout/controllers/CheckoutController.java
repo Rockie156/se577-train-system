@@ -4,7 +4,9 @@ import edu.drexel.TrainDemo.cart.controllers.CartController;
 import edu.drexel.TrainDemo.cart.models.Cart;
 import edu.drexel.TrainDemo.checkout.models.Billing;
 import edu.drexel.TrainDemo.checkout.models.CheckoutError;
-import edu.drexel.TrainDemo.checkout.models.Order;
+import edu.drexel.TrainDemo.order.controllers.OrderController;
+import edu.drexel.TrainDemo.order.models.Order;
+import edu.drexel.TrainDemo.order.services.OrderRepository;
 import edu.drexel.TrainDemo.trips.repositories.StationRepository;
 import edu.drexel.TrainDemo.trips.repositories.TripRepository;
 import org.springframework.stereotype.Controller;
@@ -19,9 +21,11 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class CheckoutController {
     private CartController cartController;
+    private OrderController orderController;
 
-    public CheckoutController(StationRepository stationRepository, TripRepository tripRepository) {
+    public CheckoutController(StationRepository stationRepository, TripRepository tripRepository, OrderRepository orderRepository) {
         this.cartController = new CartController(stationRepository, tripRepository);
+        this.orderController = new OrderController(orderRepository);
     }
 
     @GetMapping("/checkout")
@@ -39,9 +43,10 @@ public class CheckoutController {
             return "redirect:/checkout";
         }
         Cart cart = cartController.getOrCreateCart(session);
-        Order newOrder = new Order(cart, billing);
-        // saveOrder(newOrder);
+        edu.drexel.TrainDemo.checkout.models.Order newOrder = new edu.drexel.TrainDemo.checkout.models.Order(cart, billing);
+        Order newOrderEntity = orderController.createOrder(cart.getItems());
         // resetCart(session);
+        // model.addAttribute("orderEntity", newOrderEntity);
         model.addAttribute("lastSuccessfulOrder", newOrder);
         return "checkout/checkout_success";
     }
