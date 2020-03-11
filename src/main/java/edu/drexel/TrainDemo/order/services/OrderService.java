@@ -20,10 +20,12 @@ public class OrderService {
         if (purchasedItinerary.size() == 0) {
             throw new IllegalArgumentException("Cannot create order with 0 purchased items");
         }
+
         List<OrderItemEntity> items = new ArrayList<>();
 
-        for (Itinerary itinerary : purchasedItinerary) {
-            OrderItemEntity item = new OrderItemEntity(itinerary.getTrip());
+        for (int sequenceId = 0; sequenceId < purchasedItinerary.size(); sequenceId++) {
+            Itinerary itinerary = purchasedItinerary.get(sequenceId);
+            OrderItemEntity item = new OrderItemEntity(itinerary.getTrip(), itinerary.getFrom(), itinerary.getTo(), sequenceId);
             items.add(item);
         }
 
