@@ -9,8 +9,15 @@ public class OrderEntity {
     @Column(columnDefinition = "serial")
     private Long id;
 
+    @Column(name = "email")
+    private String customerEmail;
+
     public OrderEntity() {
 
+    }
+
+    public OrderEntity(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 
     public Long getId() {
@@ -19,5 +26,13 @@ public class OrderEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 }

@@ -1,6 +1,7 @@
 CREATE TABLE order_tbl
 (
-    id serial primary key
+    id    serial primary key,
+    email text
 );
 
 CREATE TABLE order_item_tbl

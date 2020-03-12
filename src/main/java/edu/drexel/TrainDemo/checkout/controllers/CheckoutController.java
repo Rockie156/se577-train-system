@@ -32,7 +32,7 @@ public class CheckoutController {
     public String viewCheckoutForm(Model model) {
         CheckoutError error = (CheckoutError) model.getAttribute("error");
         model.addAttribute("error", error);
-        model.addAttribute("CustomerBilling", new Billing("1234 5678 8888 8888"));
+        model.addAttribute("CustomerBilling", new Billing("1234 5678 8888 8888", ""));
         return "checkout/checkout_form";
     }
 
@@ -43,11 +43,16 @@ public class CheckoutController {
             return "redirect:/checkout";
         }
         Cart cart = cartController.getOrCreateCart(session);
+        // TODO remove checkout.models.Order and replace with order.models.Order
         edu.drexel.TrainDemo.checkout.models.Order newOrder = new edu.drexel.TrainDemo.checkout.models.Order(cart, billing);
-        Order newOrderEntity = orderController.createOrder(cart.getItems());
-        // resetCart(session);
+        Order newOrderEntity = orderController.createOrder(cart.getItems(), billing);
+        resetCart(session);
         // model.addAttribute("orderEntity", newOrderEntity);
         model.addAttribute("lastSuccessfulOrder", newOrder);
         return "checkout/checkout_success";
+    }
+
+    public void resetCart(HttpSession session) {
+        session.removeAttribute("ShoppingCart");
     }
 }
