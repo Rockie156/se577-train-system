@@ -2,13 +2,12 @@ package edu.drexel.TrainDemo.checkout.controllers;
 
 import edu.drexel.TrainDemo.cart.controllers.CartController;
 import edu.drexel.TrainDemo.cart.models.Cart;
+import edu.drexel.TrainDemo.cart.services.CartService;
 import edu.drexel.TrainDemo.checkout.models.Billing;
 import edu.drexel.TrainDemo.checkout.models.CheckoutError;
 import edu.drexel.TrainDemo.order.controllers.OrderController;
 import edu.drexel.TrainDemo.order.models.Order;
-import edu.drexel.TrainDemo.order.services.OrderRepository;
-import edu.drexel.TrainDemo.trips.repositories.StationRepository;
-import edu.drexel.TrainDemo.trips.repositories.TripRepository;
+import edu.drexel.TrainDemo.order.services.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +22,9 @@ public class CheckoutController {
     private CartController cartController;
     private OrderController orderController;
 
-    public CheckoutController(StationRepository stationRepository, TripRepository tripRepository, OrderRepository orderRepository) {
-        this.cartController = new CartController(stationRepository, tripRepository);
-        this.orderController = new OrderController(orderRepository);
+    public CheckoutController(CartService cartService, OrderService orderService) {
+        this.cartController = new CartController(cartService);
+        this.orderController = new OrderController(orderService);
     }
 
     @GetMapping("/checkout")

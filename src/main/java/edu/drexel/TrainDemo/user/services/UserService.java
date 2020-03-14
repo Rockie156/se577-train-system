@@ -2,10 +2,11 @@ package edu.drexel.TrainDemo.user.services;
 
 import edu.drexel.TrainDemo.user.models.User;
 import edu.drexel.TrainDemo.user.repositories.UserRepository;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
+@Service
 public class UserService {
     private UserRepository userRepository;
 

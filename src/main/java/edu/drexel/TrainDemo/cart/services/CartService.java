@@ -2,9 +2,11 @@ package edu.drexel.TrainDemo.cart.services;
 
 import edu.drexel.TrainDemo.trips.models.Itinerary;
 import edu.drexel.TrainDemo.trips.services.TripService;
+import org.springframework.stereotype.Service;
 
 import java.sql.Time;
 
+@Service
 public class CartService {
     private TripService tripService;
 

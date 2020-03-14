@@ -6,7 +6,6 @@ import edu.drexel.TrainDemo.trips.models.entities.RouteEntity;
 import edu.drexel.TrainDemo.trips.models.entities.StationEntity;
 import edu.drexel.TrainDemo.trips.repositories.RouteRepository;
 import edu.drexel.TrainDemo.trips.repositories.StationRepository;
-import edu.drexel.TrainDemo.trips.repositories.TripRepository;
 import edu.drexel.TrainDemo.trips.services.TripService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +20,10 @@ public class TripController {
     private StationRepository stationRepository;
     private TripService tripService;
 
-    public TripController(RouteRepository routeRepository, StationRepository stationRepository, TripRepository tripRepository) {
+    public TripController(RouteRepository routeRepository, StationRepository stationRepository, TripService tripService) {
         this.routeRepository = routeRepository;
         this.stationRepository = stationRepository;
-        this.tripService = new TripService(stationRepository, tripRepository);
+        this.tripService = tripService;
     }
 
     @GetMapping("/trips/routes")

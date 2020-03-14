@@ -6,18 +6,18 @@ import edu.drexel.TrainDemo.trips.models.entities.StationEntity;
 import edu.drexel.TrainDemo.trips.models.entities.StopTimeEntity;
 import edu.drexel.TrainDemo.trips.models.entities.TripEntity;
 import edu.drexel.TrainDemo.trips.repositories.StationRepository;
-import edu.drexel.TrainDemo.trips.repositories.StopTimeRepository;
 import edu.drexel.TrainDemo.trips.repositories.TripRepository;
+import org.springframework.stereotype.Service;
 
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class TripService {
     private StationRepository stationRepository;
     private TripRepository tripRepository;
-    private StopTimeRepository stopTimeRepository;
 
     public TripService(StationRepository stationRepository, TripRepository tripRepository) {
         this.stationRepository = stationRepository;
