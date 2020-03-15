@@ -1,3 +1,14 @@
 language: java
 
-script: "./mvnw test"
+script: "mvn initialize"
+
+after_script:
+  - dv8/dv8_noninteractive_installer.sh
+  - mkdir dv8/output/
+  - java -jar dv8/depends.jar java . app-json-dep -m=true -s -p=dot --auto-include -d=dv8/output/
+  # Activate Machine
+  - /opt/DV8/bin/dv8-console dv8-console license:activate -licenseKey ${dv8LicenseKey} -activationCode ${dv8ActivationCode}
+  - /opt/DV8/bin/dv8-console core:core-matrix /output/app-json-dep.json -outputFile /output/app.dv8-dsm
+  - /opt/DV8/bin/dv8-console core:convert-matrix /output/app.dv8-dsm
+  # Deactivate Machine
+  - /opt/DV8/bin/dv8-console license:deactivate -activationCode ${dv8ActivationCode}

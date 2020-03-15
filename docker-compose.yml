@@ -1,5 +1,10 @@
 version: '3.3'
 services:
+  dv8:
+    build: dv8
+    volumes:
+      - .:/app/
+    command: tail -F anything
   app:
     build: .
     depends_on:
