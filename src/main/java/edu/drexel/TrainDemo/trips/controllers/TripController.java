@@ -16,26 +16,12 @@ import java.util.Optional;
 
 @Controller
 public class TripController {
-    private RouteRepository routeRepository;
     private StationRepository stationRepository;
     private TripService tripService;
 
-    public TripController(RouteRepository routeRepository, StationRepository stationRepository, TripService tripService) {
-        this.routeRepository = routeRepository;
+    public TripController(StationRepository stationRepository, TripService tripService) {
         this.stationRepository = stationRepository;
         this.tripService = tripService;
-    }
-
-    @GetMapping("/trips/routes")
-    @ResponseBody
-    public List<RouteEntity> getAllRoutes() {
-        return (List<RouteEntity>) routeRepository.findAll();
-    }
-
-    @RequestMapping("/trips/routes/{routeID}")
-    @ResponseBody
-    public Optional<RouteEntity> getRouteByID(@PathVariable long routeID) {
-        return routeRepository.findById(routeID);
     }
 
     @GetMapping("/trips/search")
