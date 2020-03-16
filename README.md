@@ -16,7 +16,7 @@ Train Demo is a web application that simulates planning a trip and purchasing ti
 
 6. Update `src/main/resources/application.properties` with your Postgres password. Make sure not to commit changes to this file to source control.
 
-7. Add your GitHub `client-id` and `client-secret` to your `application.properites`. See the "Authentication" section.
+7. Add your GitHub `client-id` and `client-secret` to your `application.properties`. See the "Authentication" section.
 
 8. Run the project in IntelliJ, Eclipse, or on the command line with
     ```
