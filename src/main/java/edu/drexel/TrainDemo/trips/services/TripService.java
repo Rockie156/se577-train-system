@@ -101,4 +101,8 @@ public class TripService {
 
         return result.get();
     }
+
+    public Iterable<StationEntity> getAllStations() {
+        return stationRepository.findAll();
+    }
 }
