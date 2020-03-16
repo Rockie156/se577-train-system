@@ -4,31 +4,29 @@ Train Demo is a web application that simulates planning a trip and purchasing ti
 
 ## Getting Started
 
-1. Fork this repository.
+1. Clone this repository.
 
-2. Clone your forked repo.
+2. Download the latest version of [Postgres](https://www.postgresql.org/download/) for your OS. Install with the default options and remember the admin password you set.
 
-3. Download the latest version of [Postgres](https://www.postgresql.org/download/) for your OS. Install with the default options and remember the admin password you set.
+3. Open pgAdmin 4 (this comes with Postgres) and create a new database called "TrainDemo".
 
-4. Open pgAdmin 4 (this comes with Postgres) and create a new database called "TrainDemo".
+4. Run `database/*.sql` (be sure to run `database/init_data.sql` last) on your new database. This populates the database with all the tables and data. The easiest way to run queries is with Query Tool (`Tools > Query Tool`) in pgAdmin 4.
 
-5. Unzip `amtrak_sql.zip` and run `init_tables.sql` then `init_data.sql` on your new database. This populates our database with some initial tables and data. The easiest way to run queries is with Query Tool (`Tools > Query Tool`) in pgAdmin 4.
+5. Update `src/main/resources/application.properties` with your Postgres password. Make sure not to commit changes to this file to source control.
 
-6. Update `src/main/resources/application.properties` with your Postgres password. Make sure not to commit changes to this file to source control.
+6. Add your GitHub `client-id` and `client-secret` to your `application.properties`. See the "Authentication" section.
 
-7. Add your GitHub `client-id` and `client-secret` to your `application.properties`. See the "Authentication" section.
-
-8. Run the project in IntelliJ, Eclipse, or on the command line with
+7. Run the project in IntelliJ, Eclipse, or on the command line with
     ```
     mvnw clean package
     java -jar target/TrainDemo-0.0.1-SNAPSHOT.jar
     ```
 
-9. Visit `localhost:8080` in a browser.
+8. Visit `localhost:8080` in a browser.
 
 ## Authentication
 
-Included already is authentication using GitHub. For more info on how this works see [here](https://spring.io/guides/tutorials/spring-boot-oauth2/). You will have to add a new app to your GitHub account before you can run this application.
+Authentication is performed using GitHub. For more info on how this works see [here](https://spring.io/guides/tutorials/spring-boot-oauth2/). You will have to add a new app to your GitHub account before you can run this application.
 
 > To use GitHub’s OAuth 2.0 authentication system for login, you must first [Add a new GitHub app](https://github.com/settings/developers).
 > 
@@ -50,7 +48,7 @@ Below are most of the technologies used in this project. This project intentiona
 
 - Hibernate - A full Object Relational Mapper (ORM). This is what powers our Repository pattern. (However, this kind of abstraction is not without it's issues. See [here](https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch).)
 
-- Java Servlet Pages (JSP) - This provides server-side templating so our controllers can respond directly with HTML. This is the easiest way to get started. You are free to switch to a more modern templating system like Thymeleaf or switch entirely to a Single-Page Application like React or Angular for your frontend. Its up to you. But however you proceed, you will probably have to use JS at some point to make AJAX calls.
+- Thymeleaf - A modern server-side Java template engine for both web and standalone environments.
 
 - Twitter Bootstrap - The current HTML index.html is written using [Bootstrap](https://getbootstrap.com/docs/4.4/)'s styling. Bootstrap is an easy way to create a professional looking website.
 
@@ -75,3 +73,11 @@ To complete this application, you will have to introduce many new terms to descr
 7. __Ticket__ - A ticket is what a customer uses to board the train. A customer may require many tickets if their path has many trips.
 
 8. __Reservation__ - A reservation is what a customer actually pays for. It may include many tickets for many people.
+
+## Design
+
+In progress.
+
+## Use Cases
+
+To see which use cases are complete, please check the [project board](https://github.com/SaffatHasan/se577-train-system/projects/1).
