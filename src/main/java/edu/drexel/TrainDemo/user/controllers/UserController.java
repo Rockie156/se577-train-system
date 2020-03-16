@@ -1,6 +1,6 @@
 package edu.drexel.TrainDemo.user.controllers;
 
-import edu.drexel.TrainDemo.user.models.User;
+import edu.drexel.TrainDemo.user.models.UserEntity;
 import edu.drexel.TrainDemo.user.services.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -22,7 +22,7 @@ public class UserController {
 
     @GetMapping("/user")
     @ResponseBody
-    public User getUserInfo(@AuthenticationPrincipal OAuth2User principal) {
+    public UserEntity getUserInfo(@AuthenticationPrincipal OAuth2User principal) {
         Integer id = principal.getAttribute("id");
         String defaultName = principal.getAttribute("name");
         return userService.getOrCreateUser(id, defaultName);
@@ -30,15 +30,15 @@ public class UserController {
 
     @GetMapping("/user/manage")
     public String manageUser(@AuthenticationPrincipal OAuth2User principal, Model model) {
-        User current = getUserInfo(principal);
+        UserEntity current = getUserInfo(principal);
         model.addAttribute("CurrentUser", current);
         return "user/manage_user";
     }
 
     @PostMapping("/user/manage/submit")
     @ResponseBody
-    public Object submitUserInfo(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute User newUserData) {
-        User originalUserData = getUserInfo(principal);
+    public Object submitUserInfo(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute UserEntity newUserData) {
+        UserEntity originalUserData = getUserInfo(principal);
         userService.saveUser(originalUserData, newUserData);
         return "<script>window.location.href = '/';</script>";
     }

@@ -3,7 +3,7 @@ package edu.drexel.TrainDemo.user.models;
 import javax.persistence.*;
 
 @Entity(name = "user_tbl")
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,16 +14,16 @@ public class User {
     @Column(unique = true)
     private long externalId;
 
-    public User() {
+    public UserEntity() {
     }
 
-    public User(String name, String email, long externalId) {
+    public UserEntity(String name, String email, long externalId) {
         this.name = name;
         this.email = email;
         this.externalId = externalId;
     }
 
-    public User(Long id, String name, String email, long externalId) {
+    public UserEntity(Long id, String name, String email, long externalId) {
         this(name, email, externalId);
         this.id = id;
     }
