@@ -1,3 +1,7 @@
 language: java
 
 script: "./mvnw test"
+
+branches:
+  only:
+    - master
