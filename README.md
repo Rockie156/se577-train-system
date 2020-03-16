@@ -28,7 +28,7 @@ Train Demo is a web application that simulates planning a trip and purchasing ti
 
 ## Authentication
 
-Included already is authentication using GitHub or Google. For more info on how this works see [here](https://spring.io/guides/tutorials/spring-boot-oauth2/). You will have to add a new app to your GitHub account before you can run this application.
+Included already is authentication using GitHub. For more info on how this works see [here](https://spring.io/guides/tutorials/spring-boot-oauth2/). You will have to add a new app to your GitHub account before you can run this application.
 
 > To use GitHub’s OAuth 2.0 authentication system for login, you must first [Add a new GitHub app](https://github.com/settings/developers).
 > 
