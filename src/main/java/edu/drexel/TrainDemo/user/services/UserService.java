@@ -2,6 +2,7 @@ package edu.drexel.TrainDemo.user.services;
 
 import edu.drexel.TrainDemo.user.models.UserEntity;
 import edu.drexel.TrainDemo.user.repositories.UserRepository;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,6 +13,12 @@ public class UserService {
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    public UserEntity getOrCreateUser(OAuth2User principal) {
+        Integer id = principal.getAttribute("id");
+        String defaultName = principal.getAttribute("name");
+        return getOrCreateUser(id, defaultName);
     }
 
     public UserEntity getOrCreateUser(Integer externalId, String defaultName) {
@@ -37,6 +44,11 @@ public class UserService {
     public UserEntity createUser(long externalId, String name) {
         UserEntity newUser = new UserEntity(name, "", externalId);
         return userRepository.save(newUser);
+    }
+
+    public void saveUser(OAuth2User principal, UserEntity userEntity) {
+        UserEntity originalUser = getOrCreateUser(principal);
+        saveUser(originalUser, userEntity);
     }
 
     public void saveUser(UserEntity original, UserEntity userEntity) {

@@ -23,14 +23,12 @@ public class UserController {
     @GetMapping("/user")
     @ResponseBody
     public UserEntity getUserInfo(@AuthenticationPrincipal OAuth2User principal) {
-        Integer id = principal.getAttribute("id");
-        String defaultName = principal.getAttribute("name");
-        return userService.getOrCreateUser(id, defaultName);
+        return userService.getOrCreateUser(principal);
     }
 
     @GetMapping("/user/manage")
     public String manageUser(@AuthenticationPrincipal OAuth2User principal, Model model) {
-        UserEntity current = getUserInfo(principal);
+        UserEntity current = userService.getOrCreateUser(principal);
         model.addAttribute("CurrentUser", current);
         return "user/manage_user";
     }
@@ -38,8 +36,7 @@ public class UserController {
     @PostMapping("/user/manage/submit")
     @ResponseBody
     public Object submitUserInfo(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute UserEntity newUserData) {
-        UserEntity originalUserData = getUserInfo(principal);
-        userService.saveUser(originalUserData, newUserData);
+        userService.saveUser(principal, newUserData);
         return "<script>window.location.href = '/';</script>";
     }
 }
