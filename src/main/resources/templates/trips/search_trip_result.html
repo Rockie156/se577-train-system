@@ -8,31 +8,36 @@
 <p>Search Result</p>
 <table>
     <tr>
-        <th>TRIP ID</th>
         <th>FROM station</th>
         <th>DEPARTURE time</th>
         <th>TO station</th>
         <th>ARRIVAL time</th>
         <th>Purchase</th>
     </tr>
-    <th:block th:each="itinerary : ${SearchResult}">
+    <th:block th:each="itinerary : ${SearchResult}" th:with="numSegments = ${itinerary.segments.size()}">
         <tr>
-            <td th:text="${itinerary.trip.id}"></td>
-            <td th:text="${itinerary.from.name}"></td>
-            <td th:text="${itinerary.departure}"></td>
-            <td th:text="${itinerary.to.name}"></td>
-            <td th:text="${itinerary.arrival}"></td>
+            <td th:text="${itinerary.getFrom().name}"></td>
+            <td th:text="${itinerary.getTo().name}"></td>
+            <td th:text="${itinerary.getDeparture()}"></td>
+            <td th:text="${itinerary.getArrival()}"></td>
 
             <td>
                 <!--/*@thymesVar id="SelectedItinerary" type="edu.drexel.TrainDemo.trips.models.Itinerary"*/-->
                 <form method="post"
                       th:action="@{/cart/add}"
                       th:object="${SelectedItinerary}">
-                    <input hidden th:name="trip.id" th:value="${itinerary.trip.id}"/>
-                    <input hidden th:name="from.id" th:value="${itinerary.from.id}"/>
-                    <input hidden th:name="to.id" th:value="${itinerary.to.id}"/>
-                    <input hidden th:name="departure" th:value="${itinerary.departure}"/>
-                    <input hidden th:name="arrival" th:value="${itinerary.arrival}"/>
+                    <th:block th:each="segment, i : ${itinerary.segments}">
+                        <input hidden th:name="segments[__${i.index}__].trip.id"
+                               th:value="${itinerary.segments[__${i.index}__].trip.id}"/>
+                        <input hidden th:name="segments[__${i.index}__].from.id"
+                               th:value="${itinerary.segments[__${i.index}__].from.id}"/>
+                        <input hidden th:name="segments[__${i.index}__].to.id"
+                               th:value="${itinerary.segments[__${i.index}__].to.id}"/>
+                        <input hidden th:name="segments[__${i.index}__].departure"
+                               th:value="${itinerary.segments[__${i.index}__].departure}"/>
+                        <input hidden th:name="segments[__${i.index}__].arrival"
+                               th:value="${itinerary.segments[__${i.index}__].arrival}"/>
+                    </th:block>
                     <button type="submit">Add To Cart</button>
                 </form>
             </td>

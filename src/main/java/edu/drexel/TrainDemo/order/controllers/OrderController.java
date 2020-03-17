@@ -1,7 +1,7 @@
 package edu.drexel.TrainDemo.order.controllers;
 
 import edu.drexel.TrainDemo.checkout.models.Billing;
-import edu.drexel.TrainDemo.order.models.Order;
+import edu.drexel.TrainDemo.order.models.OrderEntity;
 import edu.drexel.TrainDemo.order.services.OrderService;
 import edu.drexel.TrainDemo.trips.models.Itinerary;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ public class OrderController {
     }
 
 
-    public Order createOrder(List<Itinerary> newItinerary, Billing billing) {
+    public OrderEntity createOrder(List<Itinerary> newItinerary, Billing billing) {
         return orderService.createOrder(newItinerary, billing);
     }
 }

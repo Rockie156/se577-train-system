@@ -8,7 +8,6 @@
 <p>Shopping Cart</p>
 <table>
     <tr>
-        <th>TRIP ID</th>
         <th>FROM station</th>
         <th>DEPARTURE time</th>
         <th>TO station</th>
@@ -16,13 +15,13 @@
         <th>Quantity</th>
         <th>Price</th>
     </tr>
-    <th:block th:each="itinerary : ${ShoppingCart.items}">
+    <!--/*@thymesVar id="itinerary" type="edu.drexel.TrainDemo.trips.models.Itinerary"*/-->
+    <th:block th:each="itinerary : ${ShoppingCart.items}" th:with="numSegments = ${itinerary.segments.size()}">
         <tr>
-            <td th:text="${itinerary.trip.id}"></td>
-            <td th:text="${itinerary.from.name}"></td>
-            <td th:text="${itinerary.departure}"></td>
-            <td th:text="${itinerary.to.name}"></td>
-            <td th:text="${itinerary.arrival}"></td>
+            <td th:text="${itinerary.getFrom().name}"/>
+            <td th:text="${itinerary.getTo().name}"></td>
+            <td th:text="${itinerary.getDeparture()}"></td>
+            <td th:text="${itinerary.getArrival()}"></td>
             <td th:text="1"/>
             <td th:text="FREE.99"/>
         </tr>

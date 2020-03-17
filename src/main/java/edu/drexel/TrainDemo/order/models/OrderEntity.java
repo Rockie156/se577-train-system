@@ -1,6 +1,7 @@
 package edu.drexel.TrainDemo.order.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "order_tbl")
 public class OrderEntity {
@@ -9,15 +10,18 @@ public class OrderEntity {
     @Column(columnDefinition = "serial")
     private Long id;
 
-    @Column(name = "email")
-    private String customerEmail;
+    private String email;
+
+    @OneToMany(mappedBy = "order_id", cascade = {CascadeType.ALL})
+    private List<ItineraryEntity> itineraries;
 
     public OrderEntity() {
 
     }
 
-    public OrderEntity(String customerEmail) {
-        this.customerEmail = customerEmail;
+    public OrderEntity(String email, List<ItineraryEntity> itineraries) {
+        this.email = email;
+        this.itineraries = itineraries;
     }
 
     public Long getId() {
@@ -28,11 +32,28 @@ public class OrderEntity {
         this.id = id;
     }
 
-    public String getCustomerEmail() {
-        return customerEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<ItineraryEntity> getItineraries() {
+        return itineraries;
+    }
+
+    public void setItineraries(List<ItineraryEntity> itineraries) {
+        this.itineraries = itineraries;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", itineraries=" + itineraries +
+                '}';
     }
 }

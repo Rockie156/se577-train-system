@@ -6,7 +6,6 @@ import edu.drexel.TrainDemo.trips.services.TripService;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
-import java.sql.Time;
 
 @Service
 public class CartService {
@@ -24,14 +23,8 @@ public class CartService {
         return shoppingCart;
     }
 
-
-    public Itinerary convertCartItemToItinerary(Itinerary itinerary) {
-        Long tripId = itinerary.getTrip().getId();
-        String fromId = itinerary.getFrom().getId();
-        String toId = itinerary.getTo().getId();
-        Time departure = itinerary.getDeparture();
-        Time arrival = itinerary.getArrival();
-        return tripService.findItinerary(tripId, fromId, toId, departure, arrival);
+    public Itinerary convertCartItemToItinerary(Itinerary unsafeItinerary) {
+        return tripService.constructItinerary(unsafeItinerary);
     }
 
     public Cart getOrCreateCart(HttpSession session) {

@@ -5,13 +5,16 @@ import edu.drexel.TrainDemo.trips.models.entities.TripEntity;
 
 import javax.persistence.*;
 
-@Entity(name = "order_item_tbl")
-public class OrderItemEntity {
+@Entity(name = "order_segment_tbl")
+public class SegmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "serial")
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "itinerary_id")
+    private ItineraryEntity itinerary;
     @ManyToOne
     @JoinColumn(name = "trip_id")
     private TripEntity trip;
@@ -27,20 +30,31 @@ public class OrderItemEntity {
     @Column(name = "sequence")
     private Integer stopSequence;
 
-    public OrderItemEntity() {
+    public SegmentEntity() {
 
     }
 
-
-    public OrderItemEntity(TripEntity trip, StationEntity start, StationEntity end, int stopSequence) {
+    public SegmentEntity(TripEntity trip, StationEntity start, StationEntity end, int stopSequence) {
         this.trip = trip;
         this.startStation = start;
         this.endStation = end;
         this.stopSequence = stopSequence;
     }
 
+    public ItineraryEntity getItinerary() {
+        return itinerary;
+    }
+
+    public void setItinerary(ItineraryEntity itinerary) {
+        this.itinerary = itinerary;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public TripEntity getTrip() {
@@ -73,5 +87,16 @@ public class OrderItemEntity {
 
     public void setStopSequence(Integer stopSequence) {
         this.stopSequence = stopSequence;
+    }
+
+    @Override
+    public String toString() {
+        return "SegmentEntity{" +
+                "id=" + id +
+                ", trip=" + trip +
+                ", startStation=" + startStation +
+                ", endStation=" + endStation +
+                ", stopSequence=" + stopSequence +
+                '}';
     }
 }

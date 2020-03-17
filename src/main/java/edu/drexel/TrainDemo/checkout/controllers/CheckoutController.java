@@ -4,7 +4,7 @@ import edu.drexel.TrainDemo.cart.models.Cart;
 import edu.drexel.TrainDemo.cart.services.CartService;
 import edu.drexel.TrainDemo.checkout.models.Billing;
 import edu.drexel.TrainDemo.checkout.models.CheckoutError;
-import edu.drexel.TrainDemo.order.models.Order;
+import edu.drexel.TrainDemo.order.models.OrderEntity;
 import edu.drexel.TrainDemo.order.services.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +42,7 @@ public class CheckoutController {
         Cart cart = cartService.getOrCreateCart(session);
         // TODO remove checkout.models.Order and replace with order.models.Order
         edu.drexel.TrainDemo.checkout.models.Order newOrder = new edu.drexel.TrainDemo.checkout.models.Order(cart, billing);
-        Order newOrderEntity = orderService.createOrder(cart.getItems(), billing);
+        OrderEntity newOrderEntity = orderService.createOrder(cart.getItems(), billing);
         resetCart(session);
         // model.addAttribute("orderEntity", newOrderEntity);
         model.addAttribute("lastSuccessfulOrder", newOrder);

@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 @Scope("session")
 public class Cart {
-    private List<Itinerary> items;
+    public List<Itinerary> items;
 
     public Cart() {
         items = new ArrayList<>();

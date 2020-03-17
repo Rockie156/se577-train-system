@@ -5,82 +5,66 @@ import edu.drexel.TrainDemo.trips.models.entities.StopTimeEntity;
 import edu.drexel.TrainDemo.trips.models.entities.TripEntity;
 
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Itinerary {
-    private TripEntity trip;
-    private StationEntity from;
-    private StationEntity to;
-    private Time departure;
-    private Time arrival;
+    public List<Segment> segments;
 
     public Itinerary() {
+        this.segments = new ArrayList<>();
+    }
 
+    public Itinerary(List<Segment> segments) {
+        this.segments = segments;
     }
 
     public Itinerary(TripEntity trip, StationEntity from, StationEntity to, Time departure, Time arrival) {
-        this.trip = trip;
-        this.from = from;
-        this.to = to;
-        this.departure = departure;
-        this.arrival = arrival;
+        this();
+        Segment segment = new Segment(trip, from, to, departure, arrival);
+        segments.add(segment);
     }
 
     public Itinerary(TripEntity trip, StopTimeEntity from, StopTimeEntity to) {
-        this.trip = trip;
-        this.from = from.getStation();
-        this.to = to.getStation();
-        this.departure = from.getDepartureTime();
-        this.arrival = to.getArrivalTime();
+        this(trip, from.getStation(), to.getStation(), from.getDepartureTime(), to.getArrivalTime());
     }
 
-    public TripEntity getTrip() {
-        return trip;
+    public List<Segment> getSegments() {
+        return segments;
     }
 
-    public void setTrip(TripEntity trip) {
-        this.trip = trip;
+    public void setSegments(List<Segment> segments) {
+        this.segments = segments;
     }
 
     public StationEntity getFrom() {
-        return from;
-    }
-
-    public void setFrom(StationEntity from) {
-        this.from = from;
+        return getFirstSegment().getFrom();
     }
 
     public StationEntity getTo() {
-        return to;
-    }
-
-    public void setTo(StationEntity to) {
-        this.to = to;
+        return getLastSegment().getTo();
     }
 
     public Time getDeparture() {
-        return departure;
-    }
-
-    public void setDeparture(Time departure) {
-        this.departure = departure;
+        return getFirstSegment().getDeparture();
     }
 
     public Time getArrival() {
-        return arrival;
+        return getLastSegment().getArrival();
     }
 
-    public void setArrival(Time arrival) {
-        this.arrival = arrival;
+    public Segment getFirstSegment() {
+        return segments.get(0);
+    }
+
+    public Segment getLastSegment() {
+        return segments.get(segments.size() - 1);
     }
 
     @Override
     public String toString() {
         return "Itinerary{" +
-                "trip=" + trip +
-                ", from=" + from +
-                ", to=" + to +
-                ", departure=" + departure +
-                ", arrival=" + arrival +
+                "segments=" + segments +
                 '}';
     }
 }

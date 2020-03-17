@@ -66,9 +66,11 @@ These are terms used in this project. The following come from our Amtrak data.
 
 4. __Route__ - A route represents the physical tracks a train runs on. A route has many trips. In most cases, each of a route's trips have the same stops, but there is no guarantee of this. A route is operated by an agency.
 
+5. __Segment__ - A subset of a Trip
+
 To complete this application, you will have to introduce many new terms to describe concepts in your system. I suggest a few here.
 
-5. __Connection__ - A connection connects two trips together at a specific stop. For example, to get from AAA to CCC, you may have to take a trip from AAA to BBB, then another from BBB to CCC. We would say you have a connection at BBB.
+5. __Connection__ - A connection connects two segments together at a specific stop. For example, to get from AAA to CCC, you may have to take a trip from AAA to BBB, then another from BBB to CCC. We would say you have a connection at BBB.
 
 6. __Path__ - A path describes how a customer would actually get from stop A to B. So (at a minimum) a path would include a departure date and time, a set of trips, and a set of connections.
 

@@ -1,6 +1,7 @@
 package edu.drexel.TrainDemo.trips.services;
 
 import edu.drexel.TrainDemo.trips.models.Itinerary;
+import edu.drexel.TrainDemo.trips.models.Segment;
 import edu.drexel.TrainDemo.trips.models.TripSearchRequest;
 import edu.drexel.TrainDemo.trips.models.entities.StationEntity;
 import edu.drexel.TrainDemo.trips.models.entities.StopTimeEntity;
@@ -64,6 +65,25 @@ public class TripService {
         }
 
         return resultList;
+    }
+
+    public Itinerary constructItinerary(Itinerary unsafeItinerary) {
+        List<Segment> segments = new ArrayList<>();
+        for (Segment unsafeSegment : unsafeItinerary.getSegments()) {
+            Segment safeSegment = findSegment(unsafeSegment);
+            segments.add(safeSegment);
+        }
+        return new Itinerary(segments);
+    }
+
+    public Segment findSegment(Segment segment) {
+        return findSegment(segment.getTrip().getId(), segment.getFrom().getId(), segment.getTo().getId(), segment.getDeparture(), segment.getArrival());
+    }
+
+    public Segment findSegment(Long tripId, String fromId, String toId, Time departure, Time arrival) {
+        Itinerary itinerary = findItinerary(tripId, fromId, toId, departure, arrival);
+        Segment segment = itinerary.segments.get(0);
+        return segment;
     }
 
     public Itinerary findItinerary(Long tripId, String fromId, String toId, Time departure, Time arrival) {
