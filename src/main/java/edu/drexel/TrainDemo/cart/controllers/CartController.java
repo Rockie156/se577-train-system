@@ -21,10 +21,7 @@ public class CartController {
 
     @PostMapping("/cart/add")
     public String addToCart(HttpSession session, @ModelAttribute Itinerary selectedItinerary) {
-        Cart shoppingCart = getOrCreateCart(session);
-        Itinerary safeSelectedItinerary = cartService.convertCartItemToItinerary(selectedItinerary);
-        fixObscureError(safeSelectedItinerary);
-        shoppingCart.addItem(safeSelectedItinerary);
+        Cart shoppingCart = cartService.addToCart(session, selectedItinerary);
         session.setAttribute("ShoppingCart", shoppingCart);
 
         return "redirect:/cart/view";
@@ -32,31 +29,10 @@ public class CartController {
 
     @GetMapping("/cart/view")
     public String viewCart(HttpSession session, Model model) {
-        Cart shoppingCart = getOrCreateCart(session);
+        Cart shoppingCart = cartService.getOrCreateCart(session);
         model.addAttribute("ShoppingCart", shoppingCart);
 
         return "cart/view_cart";
-    }
-
-    private void fixObscureError(Itinerary foo) {
-        // DO NOT REMOVE
-        // GHOST OF JAVA SPRING BOOT
-        //   .-.
-        //  (o o) boo!
-        //  | O \
-        //   \   \
-        //    `~~~'
-        System.out.println(foo);
-    }
-
-    public Cart getOrCreateCart(HttpSession session) {
-        Cart shoppingCart = (Cart) session.getAttribute("ShoppingCart");
-
-        if (shoppingCart == null) {
-            shoppingCart = new Cart();
-        }
-
-        return shoppingCart;
     }
 
 }
