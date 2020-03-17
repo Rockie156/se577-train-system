@@ -18,6 +18,6 @@ public class OrderController {
 
 
     public Order createOrder(List<Itinerary> newItinerary, Billing billing) {
-        return this.orderService.createOrder(newItinerary, billing);
+        return orderService.createOrder(newItinerary, billing);
     }
 }
