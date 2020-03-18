@@ -83,8 +83,4 @@ public class OrderService {
         }
         return orderEntityOptional.get();
     }
-
-    public OrderEntity saveOrder(OrderEntity orderEntity) {
-        return orderRepository.save(orderEntity);
-    }
 }
