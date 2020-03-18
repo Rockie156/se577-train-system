@@ -12,6 +12,7 @@ import edu.drexel.TrainDemo.trips.models.Segment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -32,26 +33,55 @@ public class OrderService {
         }
 
         // Save the order to database
-        OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setEmail(billing.getCustomerEmail());
-        OrderEntity savedOrderEntity = orderRepository.save(orderEntity);
+        OrderEntity savedOrderEntity = createOrderEntity(billing);
 
         // Save each itinerary to the database
-        for (Itinerary itinerary : purchasedItinerary) {
-            ItineraryEntity itineraryEntity = new ItineraryEntity();
-            itineraryEntity.setOrder_id(savedOrderEntity.getId());
-            ItineraryEntity savedItinerary = itineraryRepository.save(itineraryEntity);
-
-            // Save each segment to the database
-            for (int sequenceId = 0; sequenceId < itinerary.getSegments().size(); sequenceId++) {
-                Segment currentSegment = itinerary.getSegments().get(sequenceId);
-                SegmentEntity segment = new SegmentEntity(currentSegment.getTrip(), currentSegment.getFrom(), currentSegment.getTo(), sequenceId);
-                segment.setItinerary(savedItinerary);
-                segmentRepository.save(segment);
-            }
+        for (Itinerary unsafeItinerary : purchasedItinerary) {
+            saveItinerary(unsafeItinerary, savedOrderEntity);
         }
 
-        return orderRepository.findById(savedOrderEntity.getId()).get();
+        return fetchOrderEntity(savedOrderEntity);
+    }
+
+    public OrderEntity createOrderEntity(Billing billing) {
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setEmail(billing.getCustomerEmail());
+        return orderRepository.save(orderEntity);
+    }
+
+    public void saveItinerary(Itinerary itinerary, OrderEntity parentOrder) {
+        ItineraryEntity savedItinerary = createItineraryEntity(parentOrder);
+
+        // Save each segment to the database
+        for (int sequenceId = 0; sequenceId < itinerary.getSegments().size(); sequenceId++) {
+            createSegmentEntity(itinerary, savedItinerary, sequenceId);
+        }
+    }
+
+    public ItineraryEntity createItineraryEntity(OrderEntity parentOrder) {
+        ItineraryEntity itineraryEntity = new ItineraryEntity();
+        itineraryEntity.setOrder_id(parentOrder.getId());
+        return itineraryRepository.save(itineraryEntity);
+    }
+
+    public SegmentEntity createSegmentEntity(Itinerary unsafeItinerary, ItineraryEntity parent, Integer sequenceId) {
+        Segment unsafeSegment = unsafeItinerary.getSegments().get(sequenceId);
+        SegmentEntity segment = new SegmentEntity(unsafeSegment.getTrip(), unsafeSegment.getFrom(), unsafeSegment.getTo(), sequenceId);
+        segment.setItinerary(parent);
+        return segmentRepository.save(segment);
+    }
+
+    public OrderEntity fetchOrderEntity(OrderEntity unsafeOrderEntity) {
+        Long id = unsafeOrderEntity.getId();
+        return findById(id);
+    }
+
+    public OrderEntity findById(Long id) {
+        Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
+        if (orderEntityOptional.isEmpty()) {
+            return null;
+        }
+        return orderEntityOptional.get();
     }
 
     public OrderEntity saveOrder(OrderEntity orderEntity) {
