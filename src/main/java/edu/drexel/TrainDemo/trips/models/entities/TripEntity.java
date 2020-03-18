@@ -38,6 +38,14 @@ public class TripEntity {
         return null;
     }
 
+    public long getRouteId() {
+        return routeId;
+    }
+
+    public void setRouteId(long routeId) {
+        this.routeId = routeId;
+    }
+
     public StopTimeEntity getStopByStopSequence(int i) {
         return stops.get(i);
     }

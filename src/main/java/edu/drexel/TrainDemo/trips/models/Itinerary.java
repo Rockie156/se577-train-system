@@ -61,6 +61,27 @@ public class Itinerary {
         return segments.get(segments.size() - 1);
     }
 
+    public boolean isValid() {
+        for (int i = 0; i < segments.size() - 1; i++) {
+            Segment start = segments.get(i);
+            Segment end = segments.get(i + 1);
+
+            // avoid transferring for no reason
+            // e.g. when on the same route, don't transfer to a later trip
+            if (start.getTrip().equals(end.getTrip()) && start.getTrip().getRouteId() == end.getTrip().getRouteId()) {
+                return false;
+            }
+
+            Time departure = start.getDeparture();
+            Time arrival = end.getArrival();
+
+            if (departure.after(arrival)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public String toString() {
         return "Itinerary{" +
