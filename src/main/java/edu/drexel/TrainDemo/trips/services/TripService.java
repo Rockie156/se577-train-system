@@ -30,45 +30,34 @@ public class TripService {
         String fromId = searchRequest.getFrom();
 
         StationEntity toStation = safeGetStationFromId(toId);
-        StationEntity fromStation = safeGetStationFromId(fromId);
 
         List<TripEntity> tripsThatContainOurFromStation =
                 tripRepository.findByStops_Station_Id(fromId);
 
-        List<TripEntity> tripsThatContainOurToStation =
-                tripRepository.findByStops_Station_Id(toId);
+        List<Itinerary> itineraryList = new ArrayList<>();
 
-        List<TripEntity> tripsThatContainBoth = tripsThatContainOurFromStation;
-        tripsThatContainBoth.retainAll(tripsThatContainOurToStation);
+        for (TripEntity trip : tripsThatContainOurFromStation) {
+            StopTimeEntity fromStop = trip.getStopByStationId(fromId);
 
-        TripEntity[] validTrips = tripsThatContainBoth.stream().filter(
-                tripEntity ->
-                        tripEntity.getStopByStationId(fromId).getStopSequence() < tripEntity.getStopByStationId(toId).getStopSequence()
-        ).toArray(TripEntity[]::new);
+            int startIndex = fromStop.getStopSequence() + 1;
 
-        return constructItineraryListFromTripEntity(validTrips, fromId, toId, fromStation, toStation);
-    }
+            for (int i = startIndex; i < trip.getStops().size(); i++) {
+                StopTimeEntity toStop = trip.getStopByStopSequence(i);
+                if (!toStop.getStation().equals(toStation)) {
+                    continue;
+                }
 
-    public List<Itinerary> constructItineraryListFromTripEntity(TripEntity[] validTrips, String fromId, String toId, StationEntity fromStation, StationEntity toStation) {
-        ArrayList<Itinerary> resultList = new ArrayList<>();
+                Segment segment = new Segment(trip, fromStop, toStop);
 
-        for (TripEntity trip : validTrips) {
-            StopTimeEntity fromStopTimeEntity = trip.getStopByStationId(fromId);
-            StopTimeEntity toStopTimeEntity = trip.getStopByStationId(toId);
+                List<Segment> segmentList = new ArrayList<>();
+                segmentList.add(segment);
 
-            resultList.add(
-                    new Itinerary(
-                            trip,
-                            fromStation,
-                            toStation,
-                            fromStopTimeEntity.getDepartureTime(),
-                            toStopTimeEntity.getArrivalTime()
-                    )
-            );
-
+                Itinerary itinerary = new Itinerary(segmentList);
+                itineraryList.add(itinerary);
+            }
         }
+        return itineraryList;
 
-        return resultList;
     }
 
     public Itinerary constructItinerary(Itinerary unsafeItinerary) {
