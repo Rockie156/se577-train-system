@@ -39,4 +39,14 @@ public class StopTimeEntity {
     public Time getDepartureTime() {
         return departureTime;
     }
+
+    @Override
+    public String toString() {
+        return "StopTimeEntity{" +
+                "id=" + id +
+                ", station=" + station +
+                ", arrivalTime=" + arrivalTime +
+                ", departureTime=" + departureTime +
+                '}';
+    }
 }
