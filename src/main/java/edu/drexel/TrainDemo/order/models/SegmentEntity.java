@@ -19,11 +19,11 @@ public class SegmentEntity {
     @JoinColumn(name = "trip_id")
     private TripEntity trip;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "start_station_id")
     private StationEntity startStation;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "end_station_id")
     private StationEntity endStation;
 
