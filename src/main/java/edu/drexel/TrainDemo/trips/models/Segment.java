@@ -33,6 +33,15 @@ public class Segment {
         this.arrival = to.getArrivalTime();
     }
 
+    public Segment(StopTimeEntity from, StopTimeEntity to) {
+        // TODO assumed from and to have same trip id
+        this.trip = from.getId().getTrip();
+        this.from = from.getStation();
+        this.to = to.getStation();
+        this.departure = from.getDepartureTime();
+        this.arrival = to.getArrivalTime();
+    }
+
     public TripEntity getTrip() {
         return trip;
     }
