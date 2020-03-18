@@ -41,13 +41,17 @@ public class TripService {
         List<TripEntity> tripsThatContainBoth = tripsThatContainOurFromStation;
         tripsThatContainBoth.retainAll(tripsThatContainOurToStation);
 
-
         TripEntity[] validTrips = tripsThatContainBoth.stream().filter(
                 tripEntity ->
                         tripEntity.getStopByStationId(fromId).getStopSequence() < tripEntity.getStopByStationId(toId).getStopSequence()
         ).toArray(TripEntity[]::new);
 
+        return constructItineraryListFromTripEntity(validTrips, fromId, toId, fromStation, toStation);
+    }
+
+    public List<Itinerary> constructItineraryListFromTripEntity(TripEntity[] validTrips, String fromId, String toId, StationEntity fromStation, StationEntity toStation) {
         ArrayList<Itinerary> resultList = new ArrayList<>();
+
         for (TripEntity trip : validTrips) {
             StopTimeEntity fromStopTimeEntity = trip.getStopByStationId(fromId);
             StopTimeEntity toStopTimeEntity = trip.getStopByStationId(toId);
