@@ -8,6 +8,10 @@ import edu.drexel.TrainDemo.trips.models.entities.StopTimeEntity;
 import edu.drexel.TrainDemo.trips.models.entities.TripEntity;
 import edu.drexel.TrainDemo.trips.repositories.StationRepository;
 import edu.drexel.TrainDemo.trips.repositories.TripRepository;
+import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
+import org.jgrapht.alg.shortestpath.AllDirectedPaths;
+import org.jgrapht.graph.SimpleDirectedGraph;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
@@ -30,34 +34,48 @@ public class TripService {
         String fromId = searchRequest.getFrom();
 
         StationEntity toStation = safeGetStationFromId(toId);
+        StationEntity fromStation = safeGetStationFromId(fromId);
 
-        List<TripEntity> tripsThatContainOurFromStation =
-                tripRepository.findByStops_Station_Id(fromId);
+        List<GraphPath<StationEntity, StopTimeEntityEdge>> pathList = searchGraph(fromStation, toStation);
 
         List<Itinerary> itineraryList = new ArrayList<>();
+        for (GraphPath<StationEntity, StopTimeEntityEdge> path : pathList) {
+            List<StopTimeEntityEdge> edgeList = path.getEdgeList();
 
-        for (TripEntity trip : tripsThatContainOurFromStation) {
-            StopTimeEntity fromStop = trip.getStopByStationId(fromId);
-
-            int startIndex = fromStop.getStopSequence() + 1;
-
-            for (int i = startIndex; i < trip.getStops().size(); i++) {
-                StopTimeEntity toStop = trip.getStopByStopSequence(i);
-                if (!toStop.getStation().equals(toStation)) {
-                    continue;
-                }
-
-                Segment segment = new Segment(trip, fromStop, toStop);
-
-                List<Segment> segmentList = new ArrayList<>();
-                segmentList.add(segment);
-
-                Itinerary itinerary = new Itinerary(segmentList);
-                itineraryList.add(itinerary);
+            List<Segment> segments = new ArrayList<>();
+            for (StopTimeEntityEdge edge : edgeList) {
+                StopTimeEntity fromStop = edge.getFrom();
+                StopTimeEntity toStop = edge.getTo();
+                segments.add(new Segment(fromStop, toStop));
             }
+
+            itineraryList.add(new Itinerary(segments));
         }
         return itineraryList;
+    }
 
+    public List<GraphPath<StationEntity, StopTimeEntityEdge>> searchGraph(StationEntity fromStation, StationEntity toStation) {
+        Graph<StationEntity, StopTimeEntityEdge> g = createGraph();
+
+        AllDirectedPaths<StationEntity, StopTimeEntityEdge> dijkstraAlg =
+                new AllDirectedPaths<>(g);
+
+        List<GraphPath<StationEntity, StopTimeEntityEdge>> iPaths = dijkstraAlg.getAllPaths(fromStation, toStation, true, 10);
+        return iPaths;
+    }
+
+    public Graph<StationEntity, StopTimeEntityEdge> createGraph() {
+        Graph<StationEntity, StopTimeEntityEdge> g = new SimpleDirectedGraph<>(StopTimeEntityEdge.class);
+        for (TripEntity trip : tripRepository.findAll()) {
+            List<StopTimeEntity> stops = trip.getStops();
+            for (int i = 0; i < stops.size(); i++) {
+                g.addVertex(stops.get(i).getStation());
+            }
+            for (int i = 0; i < stops.size() - 1; i++) {
+                g.addEdge(stops.get(i).getStation(), stops.get(i + 1).getStation(), new StopTimeEntityEdge(stops.get(i), stops.get(i + 1)));
+            }
+        }
+        return g;
     }
 
     public Itinerary constructItinerary(Itinerary unsafeItinerary) {
