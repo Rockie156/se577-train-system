@@ -3,16 +3,17 @@ package edu.drexel.TrainDemo.trips.models;
 public class TripSearchRequest {
     private String from;
     private String to;
+    private String date;
 
     public TripSearchRequest() {
 
     }
 
-    public TripSearchRequest(String from, String to) {
+    public TripSearchRequest(String from, String to, String date) {
         this.from = from;
         this.to = to;
+        this.date = date;
     }
-
 
     public String getFrom() {
         return from;
@@ -28,6 +29,14 @@ public class TripSearchRequest {
 
     public void setTo(String to) {
         this.to = to;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
 

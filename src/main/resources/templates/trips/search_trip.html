@@ -2,13 +2,32 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <th:block th:replace="base :: header"/>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
 <th:block th:replace="base :: navbar"/>
 <h1>Search Trips</h1>
 <!--/*@thymesVar id="TripSearchRequest" type="edu.drexel.TrainDemo.trips.models.TripSearchRequest"*/-->
+
+<!--<h4 id="selectedDateVal"></h4>-->
+<script>
+$( function() {
+$.datepicker.setDefaults({
+onClose:function(date, inst){
+$("#selectedDateVal").html(date);
+}
+});
+
+$( "#datepicker" ).datepicker();
+});
+</script>
+
 <form action="#" id="userProfileForm" method="post" th:action="@{/trips/search/submit}"
       th:object="${TripSearchRequest}">
+    <label>Departure Date: <input type="text" id="datepicker" th:field="*{date}"></label>
+    <br/>
     <label>From</label>
     <select th:field="*{from}">
         <option value="">Select From</option>

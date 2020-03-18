@@ -10,6 +10,7 @@
     <tr>
         <th>TRIP ID</th>
         <th>FROM station</th>
+        <th>DEPARTURE DATE</th>
         <th>DEPARTURE time</th>
         <th>TO station</th>
         <th>ARRIVAL time</th>
@@ -19,6 +20,7 @@
         <tr>
             <td th:text="${itinerary.trip.id}"></td>
             <td th:text="${itinerary.from.name}"></td>
+            <td th:text="${itinerary.departureDate}"></td>
             <td th:text="${itinerary.departure}"></td>
             <td th:text="${itinerary.to.name}"></td>
             <td th:text="${itinerary.arrival}"></td>

@@ -12,17 +12,24 @@ public class Itinerary {
     private StationEntity to;
     private Time departure;
     private Time arrival;
-
+    private String departureDate;
+  
     public Itinerary() {
 
     }
 
-    public Itinerary(TripEntity trip, StationEntity from, StationEntity to, Time departure, Time arrival) {
+    public Itinerary(TripEntity trip,
+                     StationEntity from,
+                     StationEntity to,
+                     Time departure,
+                     Time arrival,
+                     String departureDate) {
         this.trip = trip;
         this.from = from;
         this.to = to;
         this.departure = departure;
         this.arrival = arrival;
+        this.departureDate = departureDate;
     }
 
     public Itinerary(TripEntity trip, StopTimeEntity from, StopTimeEntity to) {
@@ -71,6 +78,14 @@ public class Itinerary {
 
     public void setArrival(Time arrival) {
         this.arrival = arrival;
+    }
+  
+    public String getDepartureDate() { 
+      return departureDate;
+    }
+  
+    public String setDepartureDate(String departureDate) { 
+      this.departureDate = departureDate;
     }
 
     @Override
