@@ -18,6 +18,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TripService {
@@ -51,7 +52,9 @@ public class TripService {
 
             itineraryList.add(new Itinerary(segments));
         }
-        return itineraryList;
+//        return itineraryList;
+        List<Itinerary> validItineraries = itineraryList.stream().filter(itinerary -> itinerary.isValid()).collect(Collectors.toList());
+        return validItineraries;
     }
 
     public List<GraphPath<StationEntity, StopTimeEntityEdge>> searchGraph(StationEntity fromStation, StationEntity toStation) {
@@ -65,6 +68,7 @@ public class TripService {
     }
 
     public Graph<StationEntity, StopTimeEntityEdge> createGraph() {
+        // TODO make static
         Graph<StationEntity, StopTimeEntityEdge> g = new SimpleDirectedGraph<>(StopTimeEntityEdge.class);
         for (TripEntity trip : tripRepository.findAll()) {
             List<StopTimeEntity> stops = trip.getStops();
