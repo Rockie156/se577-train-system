@@ -31,11 +31,15 @@ public class TripEntity {
 
     public StopTimeEntity getStopByStationId(String stopId) {
         for (StopTimeEntity stop : stops) {
-            if (stopId == stop.getStation().getId()) {
+            if (stopId.equals(stop.getStation().getId())) {
                 return stop;
             }
         }
         return null;
+    }
+
+    public StopTimeEntity getStopByStopSequence(int i) {
+        return stops.get(i);
     }
 
     @Override
