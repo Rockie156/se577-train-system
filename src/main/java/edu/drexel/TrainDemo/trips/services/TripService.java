@@ -73,10 +73,9 @@ public class TripService {
         end = System.currentTimeMillis();
         System.out.println(String.format("Found shortest path with length %d after %d ms", maxPathLength, end - start));
         AllDirectedPaths<StationEntity, StopTimeEntityEdge> allDirectedPathsAlgorithm = new AllDirectedPaths<>(g);
-
         System.out.println("Finding all paths ...");
         start = System.currentTimeMillis();
-        List<GraphPath<StationEntity, StopTimeEntityEdge>> iPaths = allDirectedPathsAlgorithm.getAllPaths(fromStation, toStation, true, maxPathLength);
+        List<GraphPath<StationEntity, StopTimeEntityEdge>> iPaths = allDirectedPathsAlgorithm.getAllPaths(fromStation, toStation, true, maxPathLength + 1);
         end = System.currentTimeMillis();
         System.out.println(String.format("Found %d paths after %d ms", iPaths.size(), end - start));
         return iPaths;
