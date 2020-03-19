@@ -10,7 +10,8 @@ import edu.drexel.TrainDemo.trips.repositories.StationRepository;
 import edu.drexel.TrainDemo.trips.repositories.TripRepository;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.KShortestSimplePaths;
+import org.jgrapht.alg.shortestpath.AllDirectedPaths;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.SimpleDirectedGraph;
 import org.springframework.stereotype.Service;
 
@@ -57,12 +58,29 @@ public class TripService {
     }
 
     public List<GraphPath<StationEntity, StopTimeEntityEdge>> searchGraph(StationEntity fromStation, StationEntity toStation) {
+        System.out.println("Constructing graph...");
+        long start = System.currentTimeMillis();
         Graph<StationEntity, StopTimeEntityEdge> g = createGraph();
+        long end = System.currentTimeMillis();
+        System.out.println(String.format("Completed constructing graph after %dms", end - start));
 
-        KShortestSimplePaths<StationEntity, StopTimeEntityEdge> searchAlgorithm =
-                new KShortestSimplePaths<>(g);
+        DijkstraShortestPath<StationEntity, StopTimeEntityEdge> searchAlgorithm =
+                new DijkstraShortestPath<>(g);
 
-        return searchAlgorithm.getPaths(fromStation, toStation, 1);
+        System.out.println("Searching using Dijkstra to get shortest path length...");
+        start = System.currentTimeMillis();
+        int maxPathLength = searchAlgorithm.getPath(fromStation, toStation).getLength();
+        end = System.currentTimeMillis();
+        System.out.println(String.format("Found shortest path with length %d after %d ms", maxPathLength, end - start));
+        AllDirectedPaths<StationEntity, StopTimeEntityEdge> allDirectedPathsAlgorithm = new AllDirectedPaths<>(g);
+
+        System.out.println("Finding all paths ...");
+        start = System.currentTimeMillis();
+        List<GraphPath<StationEntity, StopTimeEntityEdge>> iPaths = allDirectedPathsAlgorithm.getAllPaths(fromStation, toStation, true, maxPathLength);
+        end = System.currentTimeMillis();
+        System.out.println(String.format("Found %d paths after %d ms", iPaths.size(), end - start));
+        return iPaths;
+
     }
 
     public Graph<StationEntity, StopTimeEntityEdge> createGraph() {
