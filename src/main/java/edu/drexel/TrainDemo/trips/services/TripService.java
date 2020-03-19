@@ -10,7 +10,7 @@ import edu.drexel.TrainDemo.trips.repositories.StationRepository;
 import edu.drexel.TrainDemo.trips.repositories.TripRepository;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.AllDirectedPaths;
+import org.jgrapht.alg.shortestpath.KShortestSimplePaths;
 import org.jgrapht.graph.SimpleDirectedGraph;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,6 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class TripService {
@@ -52,19 +51,18 @@ public class TripService {
 
             itineraryList.add(new Itinerary(segments));
         }
-//        return itineraryList;
-        List<Itinerary> validItineraries = itineraryList.stream().filter(itinerary -> itinerary.isValid()).collect(Collectors.toList());
-        return validItineraries;
+        return itineraryList;
+//        List<Itinerary> validItineraries = itineraryList.stream().filter(itinerary -> itinerary.isValid()).collect(Collectors.toList());
+//        return validItineraries;
     }
 
     public List<GraphPath<StationEntity, StopTimeEntityEdge>> searchGraph(StationEntity fromStation, StationEntity toStation) {
         Graph<StationEntity, StopTimeEntityEdge> g = createGraph();
 
-        AllDirectedPaths<StationEntity, StopTimeEntityEdge> dijkstraAlg =
-                new AllDirectedPaths<>(g);
+        KShortestSimplePaths<StationEntity, StopTimeEntityEdge> searchAlgorithm =
+                new KShortestSimplePaths<>(g);
 
-        List<GraphPath<StationEntity, StopTimeEntityEdge>> iPaths = dijkstraAlg.getAllPaths(fromStation, toStation, true, 10);
-        return iPaths;
+        return searchAlgorithm.getPaths(fromStation, toStation, 1);
     }
 
     public Graph<StationEntity, StopTimeEntityEdge> createGraph() {
@@ -76,7 +74,9 @@ public class TripService {
                 g.addVertex(stops.get(i).getStation());
             }
             for (int i = 0; i < stops.size() - 1; i++) {
-                g.addEdge(stops.get(i).getStation(), stops.get(i + 1).getStation(), new StopTimeEntityEdge(stops.get(i), stops.get(i + 1)));
+                for (int j = i + 1; j < stops.size() - 1; j++) {
+                    g.addEdge(stops.get(i).getStation(), stops.get(j).getStation(), new StopTimeEntityEdge(stops.get(i), stops.get(j)));
+                }
             }
         }
         return g;
