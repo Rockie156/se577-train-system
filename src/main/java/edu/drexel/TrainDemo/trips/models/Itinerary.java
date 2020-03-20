@@ -80,7 +80,7 @@ public class Itinerary {
 
             // avoid transferring for no reason
             // e.g. when on the same route, don't transfer to a later trip
-            if (start.getTrip().equals(end.getTrip()) && start.getTrip().getRouteId() == end.getTrip().getRouteId()) {
+            if (start.getTrip().getRouteId() == end.getTrip().getRouteId()) {
                 return false;
             }
 
