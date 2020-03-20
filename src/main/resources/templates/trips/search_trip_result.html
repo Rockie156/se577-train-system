@@ -12,6 +12,8 @@
         <th>DEPARTURE time</th>
         <th>TO station</th>
         <th>ARRIVAL time</th>
+        <th>Path</th>
+        <th>Number of Connections</th>
         <th>Purchase</th>
     </tr>
     <th:block th:each="itinerary : ${SearchResult}" th:with="numSegments = ${itinerary.segments.size()}">
@@ -20,6 +22,8 @@
             <td th:text="${itinerary.getTo().name}"></td>
             <td th:text="${itinerary.getDeparture()}"></td>
             <td th:text="${itinerary.getArrival()}"></td>
+            <td th:text="${itinerary.getPath()}"></td>
+            <td th:text="${itinerary.getNumStops()} - 1"></td>
 
             <td>
                 <!--/*@thymesVar id="SelectedItinerary" type="edu.drexel.TrainDemo.trips.models.Itinerary"*/-->

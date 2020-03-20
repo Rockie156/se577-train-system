@@ -61,6 +61,18 @@ public class Itinerary {
         return segments.get(segments.size() - 1);
     }
 
+    public int getNumStops() {
+        return segments.size();
+    }
+
+    public String getPath() {
+        String result = segments.get(0).getFrom().getId();
+        for (Segment stop : segments) {
+            result += "->" + stop.getTo().getId();
+        }
+        return result;
+    }
+
     public boolean isValid() {
         for (int i = 0; i < segments.size() - 1; i++) {
             Segment start = segments.get(i);
