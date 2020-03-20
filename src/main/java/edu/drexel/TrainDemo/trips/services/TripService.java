@@ -13,6 +13,8 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.SimpleDirectedGraph;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
@@ -24,6 +26,8 @@ import java.util.Optional;
 public class TripService {
     private StationRepository stationRepository;
     private TripRepository tripRepository;
+
+    Logger logger = LoggerFactory.getLogger(TripService.class);
 
     public TripService(StationRepository stationRepository, TripRepository tripRepository) {
         this.stationRepository = stationRepository;
@@ -58,26 +62,26 @@ public class TripService {
     }
 
     public List<GraphPath<StationEntity, StopTimeEntityEdge>> searchGraph(StationEntity fromStation, StationEntity toStation) {
-        System.out.println("Constructing graph...");
+        logger.info("Constructing graph...");
         long start = System.currentTimeMillis();
         Graph<StationEntity, StopTimeEntityEdge> g = createGraph();
         long end = System.currentTimeMillis();
-        System.out.println(String.format("Completed constructing graph after %dms", end - start));
+        logger.info(String.format("Completed constructing graph after %dms", end - start));
 
         DijkstraShortestPath<StationEntity, StopTimeEntityEdge> searchAlgorithm =
                 new DijkstraShortestPath<>(g);
 
-        System.out.println("Searching using Dijkstra to get shortest path length...");
+        logger.info("Searching using Dijkstra to get shortest path length...");
         start = System.currentTimeMillis();
         int maxPathLength = searchAlgorithm.getPath(fromStation, toStation).getLength();
         end = System.currentTimeMillis();
-        System.out.println(String.format("Found shortest path with length %d after %d ms", maxPathLength, end - start));
+        logger.info(String.format("Found shortest path with length %d after %d ms", maxPathLength, end - start));
         AllDirectedPaths<StationEntity, StopTimeEntityEdge> allDirectedPathsAlgorithm = new AllDirectedPaths<>(g);
-        System.out.println("Finding all paths ...");
+        logger.info("Finding all paths ...");
         start = System.currentTimeMillis();
         List<GraphPath<StationEntity, StopTimeEntityEdge>> iPaths = allDirectedPathsAlgorithm.getAllPaths(fromStation, toStation, true, maxPathLength + 1);
         end = System.currentTimeMillis();
-        System.out.println(String.format("Found %d paths after %d ms", iPaths.size(), end - start));
+        logger.info(String.format("Found %d paths after %d ms", iPaths.size(), end - start));
         return iPaths;
 
     }
