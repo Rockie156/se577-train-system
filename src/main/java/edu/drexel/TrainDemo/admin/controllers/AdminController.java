@@ -4,7 +4,11 @@ import edu.drexel.TrainDemo.admin.models.PaymentModel;
 import edu.drexel.TrainDemo.admin.models.entities.PaymentEntity;
 import edu.drexel.TrainDemo.admin.repositories.PaymentRepository;
 import edu.drexel.TrainDemo.admin.services.PaymentService;
+import edu.drexel.TrainDemo.admin.models.UserModel;
+import edu.drexel.TrainDemo.admin.repositories.PaymentRepository;
 import edu.drexel.TrainDemo.user.repositories.UserRepository;
+import edu.drexel.TrainDemo.user.models.UserEntity;
+import edu.drexel.TrainDemo.user.services.UserService;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -33,10 +37,15 @@ public class AdminController {
 		@Autowired
 		private PaymentService paymentService;
 
+		@Autowired
+		private UserService userService;
+
 		private List<String> paymentOptions;
 	
-		public AdminController(PaymentRepository paymentRepository) {
+		public AdminController(PaymentRepository paymentRepository,
+					UserRepository userRepository) {
 			this.paymentRepository = paymentRepository;
+			this.userRepository = userRepository;
 		}
 
     @GetMapping("/admin")
@@ -106,12 +115,36 @@ public class AdminController {
 			return "admin/admin_portal";
   	}
 
+
+
 		@ModelAttribute
-		public void getUserModel(Model model) {
-			System.out.print("test print1");			
-			model.addAttribute("user", "Manage Users");
+		public void getUserModelHeader(Model model) {
+			model.addAttribute("userModelHeader", "Manage Users");
 		}
 		
+		@ModelAttribute
+		public void getUserForm(Model model) {
+    	Iterable<UserEntity> users = userRepository.findAll();
+			UserEntity userEntity = new UserEntity();
+			UserModel userModel = new UserModel("", users);
+			model.addAttribute("userModel", userModel);
+			model.addAttribute("userEntity", userEntity);
+		}
+
+		@PostMapping("/admin/update_user")
+		public String updateRegisteredUser(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute UserEntity user, Model model) {
+			this.userService.updateUser(user);
+			getUserForm(model);	
+			return "admin/admin_portal";
+		}
+
+		@PostMapping("/admin/remove_user")
+		public String removeRegisteredUser(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute UserEntity userToRemove, Model model) {
+			this.userService.removeUser(userToRemove);
+			getUserForm(model);	
+			return "admin/admin_portal";
+  	}
+
 		@ModelAttribute
 		public void getCustomerModel(Model model) {
 			System.out.print("test print2");			

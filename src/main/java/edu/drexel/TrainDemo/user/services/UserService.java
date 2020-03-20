@@ -5,6 +5,8 @@ import edu.drexel.TrainDemo.user.repositories.UserRepository;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.lang.Iterable;
+import java.util.Iterator;
 import java.util.Optional;
 
 @Service
@@ -40,6 +42,10 @@ public class UserService {
         }
         return null;
     }
+		
+		public Iterable<UserEntity> getAllUsers() {
+			return userRepository.findAll();
+		}
 
     public UserEntity createUser(long externalId, String name) {
         UserEntity newUser = new UserEntity(name, "", externalId);
@@ -64,4 +70,34 @@ public class UserService {
 
         userRepository.save(updatedUser);
     }
+
+	
+	public void updateUser(UserEntity userToUpdate) {
+		Iterable<UserEntity> registeredUsers = getAllUsers();
+		Iterator<UserEntity> i = registeredUsers.iterator();
+		while (i.hasNext()) {
+				UserEntity user = i.next();
+			if ((userToUpdate.getName().equals(user.getName())) ||
+ 					(userToUpdate.getEmail().equals(user.getEmail()))) {
+				userToUpdate.setId(user.getId());
+				userToUpdate.setExternalId(user.getExternalId());
+				i.remove();
+			}
+		}
+		
+		userRepository.save(userToUpdate);
+	}
+	
+	public void removeUser(UserEntity userToRemove) {
+		Iterable<UserEntity> registeredUsers = getAllUsers();
+		Iterator<UserEntity> i = registeredUsers.iterator();
+		while (i.hasNext()) {
+			if (userToRemove.getEmail().equals(i.next().getEmail())) {
+				i.remove();
+			}
+		}
+		
+		userRepository.deleteAll();
+		userRepository.saveAll(registeredUsers);
+	}
 }
