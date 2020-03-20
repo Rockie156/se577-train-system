@@ -43,14 +43,14 @@ public class AdminController {
     }
 
 		// Used for debugging
- 		@GetMapping("/retrieve_payments")
+ 		@GetMapping("/admin/retrieve_payments")
 		@ResponseBody
 		public Object testEndpoint() {
 				return paymentRepository.findAll();
 		}
 
 		// Used for debugging
- 		@GetMapping("/reset_payments")
+ 		@GetMapping("/admin/reset_payments")
 		@ResponseBody
 		public Object reset() {
 				Iterable<PaymentEntity> options = paymentService.getAllPaymentOptions();
@@ -88,7 +88,7 @@ public class AdminController {
 			model.addAttribute("paymentEntity", paymentEntity);
 		}
 
-		@PostMapping("/add_payment")
+		@PostMapping("/admin/add_payment")
 		public String addPaymentOption(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute PaymentEntity payment, Model model) {
 			payment.setIsEnabled(true);
 			this.paymentService.saveNewPayment(payment);
@@ -96,7 +96,7 @@ public class AdminController {
 			return "admin/admin_portal";
   	}
 
-		@PostMapping("/remove_payment")
+		@PostMapping("/admin/remove_payment")
 		public String removePaymentOption(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute PaymentEntity payment, Model model) {
 			payment.setIsEnabled(false);
 			paymentService.deletePaymentOption(payment);
