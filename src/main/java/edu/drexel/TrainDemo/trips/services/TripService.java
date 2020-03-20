@@ -87,13 +87,9 @@ public class TripService {
         Graph<StationEntity, StopTimeEntityEdge> g = new SimpleDirectedGraph<>(StopTimeEntityEdge.class);
         for (TripEntity trip : tripRepository.findAll()) {
             List<StopTimeEntity> stops = trip.getStops();
-            for (int i = 0; i < stops.size(); i++) {
-                StationEntity station = stops.get(i).getStation();
-                if (g.containsVertex(station)) {
-                    continue;
-                }
-                g.addVertex(stops.get(i).getStation());
-            }
+            stops.stream().forEach(stop -> {
+                g.addVertex(stop.getStation());
+            });
             for (int i = 0; i < stops.size() - 1; i++) {
                 for (int j = i + 1; j < stops.size() - 1; j++) {
                     g.addEdge(stops.get(i).getStation(), stops.get(j).getStation(), new StopTimeEntityEdge(stops.get(i), stops.get(j)));
