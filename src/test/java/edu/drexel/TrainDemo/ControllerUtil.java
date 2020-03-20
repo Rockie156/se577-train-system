@@ -24,7 +24,19 @@ public class ControllerUtil {
 
     public static String extractValueFromAnnotation(Annotation annotation) {
         String annotationAsString = annotation.toString();
+        if (!annotationAsString.contains("{")) {
+            return java8ExtractValueFromAnnotation(annotationAsString);
+        }
+        return java11ExtractValueFromAnnotation(annotationAsString);
+    }
+
+    public static String java11ExtractValueFromAnnotation(String annotationAsString) {
         String value = annotationAsString.split("value=\\{\"")[1].split("\"}")[0];
+        return value;
+    }
+
+    public static String java8ExtractValueFromAnnotation(String annotationAsString) {
+        String value = annotationAsString.split("value=\\[")[1].split("]")[0];
         return value;
     }
 }
