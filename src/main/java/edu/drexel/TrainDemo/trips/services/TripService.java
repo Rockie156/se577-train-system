@@ -67,13 +67,16 @@ public class TripService {
         Graph<StationEntity, StopTimeEntityEdge> g = createGraph();
         long end = System.currentTimeMillis();
         logger.info(String.format("Completed constructing graph after %dms", end - start));
-
         DijkstraShortestPath<StationEntity, StopTimeEntityEdge> searchAlgorithm =
                 new DijkstraShortestPath<>(g);
 
         logger.info("Searching using Dijkstra to get shortest path length...");
         start = System.currentTimeMillis();
-        int maxPathLength = searchAlgorithm.getPath(fromStation, toStation).getLength();
+        GraphPath<StationEntity, StopTimeEntityEdge> shortestPath = searchAlgorithm.getPath(fromStation, toStation);
+        if (shortestPath == null) {
+            return new ArrayList<>();
+        }
+        int maxPathLength = shortestPath.getLength();
         end = System.currentTimeMillis();
         logger.info(String.format("Found shortest path with length %d after %d ms", maxPathLength, end - start));
         AllDirectedPaths<StationEntity, StopTimeEntityEdge> allDirectedPathsAlgorithm = new AllDirectedPaths<>(g);
