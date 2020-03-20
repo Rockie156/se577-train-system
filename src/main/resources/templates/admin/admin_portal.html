@@ -31,7 +31,7 @@
   <div class="card">
     <div class="card-header" id="headingOne">
       <h2 class="mb-0">
-        <button th:text="${payment}" data-toggle="collapse" data-target="#paymentForm"  class="btn btn-link" aria-expanded="true" aria-controls="collapseOne" type="button">
+        <button th:text="${paymentModelHeader}" data-toggle="collapse" data-target="#paymentForm"  class="btn btn-link" aria-expanded="true" aria-controls="collapseOne" type="button">
           UseCase
         </button>
       </h2>
@@ -39,12 +39,37 @@
 
     <div id="paymentForm" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
-				<form action="#" th:action="@{/paymentForm}" th:object="${paymentForm}" method="post">
-    			<p>Name: <input type="text" th:field="*{name}" /></p>
+<!--				<form action="#" th:action="@{/paymentForm}" th:object="${paymentModel}" method="post"> -->
+				<div>		
+					<p> Available Payment Options </p>
+					<table th:object="${paymentModel}">
+						<tr th:each="option, iterStat: *{availablePaymentOptions}">
+							<td th:text="${option.name}"> Payment Option </td>
+						</tr>
+					</table>
+				</div>
+<!--	TODO: Use this as a baseline for preferring checkboxes			
+							<input type="checkbox" th:id="'pOption' + ${iterStat.count}" th:checked="${option.isEnabled}"/>
+								<label th:for="'pOption' + ${iterStat.count}"  th:text=" ${option.name}"> Payment Option </label>
+									<br>
+-->
+				<div>	
+					<p> Add Payment Option </p>
+					<form action="#" th:action="@{/add_payment}" th:object="${paymentEntity}" method="post">
+    				<p>Name: <input type="text" th:field="*{name}" /></p>
+        		<p><input type="submit" value="Add" /></p>
+					</form>
+
+					<p> Remove Payment Option </p>
+					<form action="#" th:action="@{/remove_payment}" th:object="${paymentEntity}" method="post">
+    				<p>Name: <input type="text" th:field="*{name}" /></p>
+        		<p><input type="submit" value="Remove" /> </p>
+					</form>
+
 <!--        	<p>Message: <input type="text" th:field="*{content}" /></p>  -->
-        	<p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+        		<!-- <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p> -->
+				</div>
     		</form>
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia 
       </div>
     </div>
   </div>

@@ -1,17 +1,22 @@
 package edu.drexel.TrainDemo.admin.controllers;
 
 import edu.drexel.TrainDemo.admin.models.PaymentModel;
-import edu.drexel.TrainDemo.admin.services.AdminService;
+import edu.drexel.TrainDemo.admin.models.entities.PaymentEntity;
+import edu.drexel.TrainDemo.admin.repositories.PaymentRepository;
+import edu.drexel.TrainDemo.admin.services.PaymentService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.lang.Iterable;
 import java.util.List;
+import java.util.Iterator;
 import java.util.ArrayList;
 import java.io.*; 
 
@@ -19,19 +24,43 @@ import java.io.*;
 @Controller
 public class AdminController {
 		private PaymentModel paymentModel;
-		private PaymentModel paymentForm;
-		private AdminService adminService;
+		private PaymentModel paymentModel2;
+		private PaymentEntity paymentEntity;
+		private PaymentRepository paymentRepository;
+		
+		@Autowired
+		private PaymentService paymentService;
 
+		private List<String> paymentOptions;
+	
+		public AdminController(PaymentRepository paymentRepository) {
+			this.paymentRepository = paymentRepository;
+		}
 
     @GetMapping("/admin")
     public String getAdminPage(@AuthenticationPrincipal OAuth2User principal, Model model) {
         return "admin/admin_portal";
     }
 
-		@PostMapping("/paymentForm")
-		public String greetingSubmit(@ModelAttribute PaymentModel payment) {
-    	return "result";
-  }
+		// Used for debugging
+ 		@GetMapping("/retrieve_payments")
+		@ResponseBody
+		public Object testEndpoint() {
+				return paymentRepository.findAll();
+		}
+
+		// Used for debugging
+ 		@GetMapping("/reset_payments")
+		@ResponseBody
+		public Object reset() {
+				Iterable<PaymentEntity> options = paymentService.getAllPaymentOptions();
+				for (PaymentEntity option: options) {
+					if (!option.getName().equals("PayPal")) {
+						paymentRepository.delete(option);
+					}
+				}
+			return paymentRepository.findAll();
+		}
 
 		@ModelAttribute
 		public void getUseCases(Model model) {
@@ -44,21 +73,36 @@ public class AdminController {
 			useCases.add("orders");
 			model.addAttribute("useCases", useCases);
 		}
-			
 		
 		@ModelAttribute
-		public void getPayment(Model model) {
-			System.out.print("test print0");			
-			paymentModel = new PaymentModel("Paypal 2");				
-			model.addAttribute("payment", paymentModel.getName());
+		public void getPaymentModelHeader(Model model) {
+			model.addAttribute("paymentModelHeader", "Manage Payments");
 		}
 
 		@ModelAttribute
 		public void getPaymentForm(Model model) {
-			System.out.print("test print0");			
-			paymentForm = new PaymentModel("Paypal");				
-			model.addAttribute("paymentForm", paymentForm);
+    	Iterable<PaymentEntity> options = paymentService.getAllPaymentOptions();
+			PaymentEntity paymentEntity = new PaymentEntity();
+			PaymentModel paymentModel = new PaymentModel("", options);
+			model.addAttribute("paymentModel", paymentModel);
+			model.addAttribute("paymentEntity", paymentEntity);
 		}
+
+		@PostMapping("/add_payment")
+		public String addPaymentOption(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute PaymentEntity payment, Model model) {
+			payment.setIsEnabled(true);
+			this.paymentService.saveNewPayment(payment);
+			getPaymentForm(model);	
+			return "admin/admin_portal";
+  	}
+
+		@PostMapping("/remove_payment")
+		public String removePaymentOption(@AuthenticationPrincipal OAuth2User principal, @ModelAttribute PaymentEntity payment, Model model) {
+			payment.setIsEnabled(false);
+			paymentService.deletePaymentOption(payment);
+			getPaymentForm(model);	
+			return "admin/admin_portal";
+  	}
 
 		@ModelAttribute
 		public void getUserModel(Model model) {
