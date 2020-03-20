@@ -21,13 +21,13 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TripService {
+    Logger logger = LoggerFactory.getLogger(TripService.class);
     private StationRepository stationRepository;
     private TripRepository tripRepository;
-
-    Logger logger = LoggerFactory.getLogger(TripService.class);
 
     public TripService(StationRepository stationRepository, TripRepository tripRepository) {
         this.stationRepository = stationRepository;
@@ -56,9 +56,8 @@ public class TripService {
 
             itineraryList.add(new Itinerary(segments));
         }
-        return itineraryList;
-//        List<Itinerary> validItineraries = itineraryList.stream().filter(itinerary -> itinerary.isValid()).collect(Collectors.toList());
-//        return validItineraries;
+        List<Itinerary> validItineraries = itineraryList.stream().filter(itinerary -> itinerary.isValid()).collect(Collectors.toList());
+        return validItineraries;
     }
 
     public List<GraphPath<StationEntity, StopTimeEntityEdge>> searchGraph(StationEntity fromStation, StationEntity toStation) {
@@ -97,13 +96,18 @@ public class TripService {
             stops.stream().forEach(stop -> {
                 g.addVertex(stop.getStation());
             });
-            for (int i = 0; i < stops.size() - 1; i++) {
-                for (int j = i + 1; j < stops.size() - 1; j++) {
-                    g.addEdge(stops.get(i).getStation(), stops.get(j).getStation(), new StopTimeEntityEdge(stops.get(i), stops.get(j)));
+            int numStops = stops.size();
+            for (int i = 0; i < numStops - 1; i++) {
+                for (int j = i + 1; j < numStops - 1; j++) {
+                    addEdge(g, stops.get(i), stops.get(j));
                 }
             }
         }
         return g;
+    }
+
+    private void addEdge(Graph<StationEntity, StopTimeEntityEdge> g, StopTimeEntity outbound, StopTimeEntity inbound) {
+        g.addEdge(outbound.getStation(), inbound.getStation(), new StopTimeEntityEdge(outbound, inbound));
     }
 
     public Itinerary constructItinerary(Itinerary unsafeItinerary) {
