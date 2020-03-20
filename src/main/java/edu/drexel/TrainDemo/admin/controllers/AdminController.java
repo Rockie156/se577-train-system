@@ -4,6 +4,8 @@ import edu.drexel.TrainDemo.admin.models.PaymentModel;
 import edu.drexel.TrainDemo.admin.models.entities.PaymentEntity;
 import edu.drexel.TrainDemo.admin.repositories.PaymentRepository;
 import edu.drexel.TrainDemo.admin.services.PaymentService;
+import edu.drexel.TrainDemo.user.repositories.UserRepository;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -24,9 +26,9 @@ import java.io.*;
 @Controller
 public class AdminController {
 		private PaymentModel paymentModel;
-		private PaymentModel paymentModel2;
 		private PaymentEntity paymentEntity;
 		private PaymentRepository paymentRepository;
+		private UserRepository userRepository;
 		
 		@Autowired
 		private PaymentService paymentService;
@@ -43,10 +45,10 @@ public class AdminController {
     }
 
 		// Used for debugging
- 		@GetMapping("/admin/retrieve_payments")
+ 		@GetMapping("/admin/retrieve_users")
 		@ResponseBody
 		public Object testEndpoint() {
-				return paymentRepository.findAll();
+				return userRepository.findAll();
 		}
 
 		// Used for debugging
