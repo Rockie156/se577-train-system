@@ -78,7 +78,7 @@ public class OrderService {
 
     public OrderEntity findById(Long id) {
         Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
-        if (orderEntityOptional.isEmpty()) {
+        if (!orderEntityOptional.isPresent()) {
             return null;
         }
         return orderEntityOptional.get();
