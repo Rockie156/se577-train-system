@@ -1,11 +1,13 @@
 package edu.drexel.TrainDemo.user.services;
 
-import edu.drexel.TrainDemo.user.models.User;
+import edu.drexel.TrainDemo.user.models.UserEntity;
 import edu.drexel.TrainDemo.user.repositories.UserRepository;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
+@Service
 public class UserService {
     private UserRepository userRepository;
 
@@ -13,10 +15,16 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User getOrCreateUser(Integer externalId, String defaultName) {
+    public UserEntity getOrCreateUser(OAuth2User principal) {
+        Integer id = principal.getAttribute("id");
+        String defaultName = principal.getAttribute("name");
+        return getOrCreateUser(id, defaultName);
+    }
+
+    public UserEntity getOrCreateUser(Integer externalId, String defaultName) {
         long id = externalId.longValue();
 
-        User currentUser = getUser(id);
+        UserEntity currentUser = getUser(id);
 
         if (currentUser != null) {
             return currentUser;
@@ -25,26 +33,31 @@ public class UserService {
         return createUser(id, defaultName);
     }
 
-    public User getUser(long externalId) {
-        Optional<User> matchingUsers = userRepository.findByExternalId(externalId);
+    public UserEntity getUser(long externalId) {
+        Optional<UserEntity> matchingUsers = userRepository.findByExternalId(externalId);
         if (matchingUsers.isPresent()) {
             return matchingUsers.get();
         }
         return null;
     }
 
-    public User createUser(long externalId, String name) {
-        User newUser = new User(name, "", externalId);
+    public UserEntity createUser(long externalId, String name) {
+        UserEntity newUser = new UserEntity(name, "", externalId);
         return userRepository.save(newUser);
     }
 
-    public void saveUser(User original, User user) {
-        Long id = original.getId();
-        Optional<User> updatedUserResult = userRepository.findById(id);
-        User updatedUser = updatedUserResult.get();
+    public void saveUser(OAuth2User principal, UserEntity userEntity) {
+        UserEntity originalUser = getOrCreateUser(principal);
+        saveUser(originalUser, userEntity);
+    }
 
-        String newName = user.getName();
-        String newEmail = user.getEmail();
+    public void saveUser(UserEntity original, UserEntity userEntity) {
+        Long id = original.getId();
+        Optional<UserEntity> updatedUserResult = userRepository.findById(id);
+        UserEntity updatedUser = updatedUserResult.get();
+
+        String newName = userEntity.getName();
+        String newEmail = userEntity.getEmail();
 
         updatedUser.setName(newName);
         updatedUser.setEmail(newEmail);

@@ -5,10 +5,12 @@ import edu.drexel.TrainDemo.order.models.Order;
 import edu.drexel.TrainDemo.order.models.OrderEntity;
 import edu.drexel.TrainDemo.order.models.OrderItemEntity;
 import edu.drexel.TrainDemo.trips.models.Itinerary;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class OrderService {
 
     private OrderRepository orderRepository;

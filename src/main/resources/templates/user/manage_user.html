@@ -6,7 +6,7 @@
 <body>
 <th:block th:replace="base :: navbar"/>
 <h1>Manage User Profile</h1>
-<!--/*@thymesVar id="CurrentUser" type="edu.drexel.TrainDemo.user.models.User"*/-->
+<!--/*@thymesVar id="CurrentUser" type="edu.drexel.TrainDemo.userEntity.models.UserEntity"*/-->
 <form id="userProfileForm" method="post" th:action="@{/user/manage/submit}" th:object="${CurrentUser}">
     <label>Name</label>
     <input th:field="*{name}" type="text"/>

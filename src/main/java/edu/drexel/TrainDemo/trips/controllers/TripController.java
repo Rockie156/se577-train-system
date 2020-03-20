@@ -2,46 +2,27 @@ package edu.drexel.TrainDemo.trips.controllers;
 
 import edu.drexel.TrainDemo.trips.models.Itinerary;
 import edu.drexel.TrainDemo.trips.models.TripSearchRequest;
-import edu.drexel.TrainDemo.trips.models.entities.RouteEntity;
 import edu.drexel.TrainDemo.trips.models.entities.StationEntity;
-import edu.drexel.TrainDemo.trips.repositories.RouteRepository;
-import edu.drexel.TrainDemo.trips.repositories.StationRepository;
-import edu.drexel.TrainDemo.trips.repositories.TripRepository;
 import edu.drexel.TrainDemo.trips.services.TripService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class TripController {
-    private RouteRepository routeRepository;
-    private StationRepository stationRepository;
     private TripService tripService;
 
-    public TripController(RouteRepository routeRepository, StationRepository stationRepository, TripRepository tripRepository) {
-        this.routeRepository = routeRepository;
-        this.stationRepository = stationRepository;
-        this.tripService = new TripService(stationRepository, tripRepository);
-    }
-
-    @GetMapping("/trips/routes")
-    @ResponseBody
-    public List<RouteEntity> getAllRoutes() {
-        return (List<RouteEntity>) routeRepository.findAll();
-    }
-
-    @RequestMapping("/trips/routes/{routeID}")
-    @ResponseBody
-    public Optional<RouteEntity> getRouteByID(@PathVariable long routeID) {
-        return routeRepository.findById(routeID);
+    public TripController(TripService tripService) {
+        this.tripService = tripService;
     }
 
     @GetMapping("/trips/search")
     public String searchTrips(Model model) {
-        Iterable<StationEntity> allStations = stationRepository.findAll();
+        Iterable<StationEntity> allStations = tripService.getAllStations();
         TripSearchRequest searchRequest = new TripSearchRequest();
 
         model.addAttribute("allStations", allStations);

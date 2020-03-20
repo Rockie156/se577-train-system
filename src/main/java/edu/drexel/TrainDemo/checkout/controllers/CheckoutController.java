@@ -1,14 +1,11 @@
 package edu.drexel.TrainDemo.checkout.controllers;
 
-import edu.drexel.TrainDemo.cart.controllers.CartController;
 import edu.drexel.TrainDemo.cart.models.Cart;
+import edu.drexel.TrainDemo.cart.services.CartService;
 import edu.drexel.TrainDemo.checkout.models.Billing;
 import edu.drexel.TrainDemo.checkout.models.CheckoutError;
-import edu.drexel.TrainDemo.order.controllers.OrderController;
 import edu.drexel.TrainDemo.order.models.Order;
-import edu.drexel.TrainDemo.order.services.OrderRepository;
-import edu.drexel.TrainDemo.trips.repositories.StationRepository;
-import edu.drexel.TrainDemo.trips.repositories.TripRepository;
+import edu.drexel.TrainDemo.order.services.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +17,12 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class CheckoutController {
-    private CartController cartController;
-    private OrderController orderController;
+    private CartService cartService;
+    private OrderService orderService;
 
-    public CheckoutController(StationRepository stationRepository, TripRepository tripRepository, OrderRepository orderRepository) {
-        this.cartController = new CartController(stationRepository, tripRepository);
-        this.orderController = new OrderController(orderRepository);
+    public CheckoutController(CartService cartService, OrderService orderService) {
+        this.cartService = cartService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/checkout")
@@ -42,10 +39,10 @@ public class CheckoutController {
             redirectAttributes.addFlashAttribute("error", new CheckoutError("Did not receive billing information"));
             return "redirect:/checkout";
         }
-        Cart cart = cartController.getOrCreateCart(session);
+        Cart cart = cartService.getOrCreateCart(session);
         // TODO remove checkout.models.Order and replace with order.models.Order
         edu.drexel.TrainDemo.checkout.models.Order newOrder = new edu.drexel.TrainDemo.checkout.models.Order(cart, billing);
-        Order newOrderEntity = orderController.createOrder(cart.getItems(), billing);
+        Order newOrderEntity = orderService.createOrder(cart.getItems(), billing);
         resetCart(session);
         // model.addAttribute("orderEntity", newOrderEntity);
         model.addAttribute("lastSuccessfulOrder", newOrder);
