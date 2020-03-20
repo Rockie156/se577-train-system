@@ -2,6 +2,10 @@ language: java
 
 script: "./mvnw test"
 
+jdk:
+  - oraclejdk8
+  - openjdk11
+
 branches:
   only:
     - master
