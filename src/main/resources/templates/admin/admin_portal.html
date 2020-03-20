@@ -27,6 +27,7 @@
 </table> -->
 
 
+<!-- ----- Manage Payments ----- --> 
 <div class="accordion" id="accordionExample">
   <div class="card">
     <div class="card-header" id="headingOne">
@@ -71,25 +72,55 @@
   </div>
 </div>
 
-
+<!-- ----- Manage Users ----- -->
 <div class="accordion" id="accordionExample">
   <div class="card">
     <div class="card-header" id="headingOne">
       <h2 class="mb-0">
-        <button th:text="${user}" data-toggle="collapse" data-target="#userForm"  class="btn btn-link" aria-expanded="true" aria-controls="collapseOne" type="button">
+        <button th:text="${userModelHeader}" data-toggle="collapse" data-target="#userForm"  class="btn btn-link" aria-expanded="true" aria-controls="collapseOne" type="button">
           UseCase
         </button>
       </h2>
     </div>
 
-    <div id="userForm" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+		<div id="userForm" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia 
+				<div>
+					<p> Registered users </p>
+						<table th:object="${userModel}">
+						<tr th:each="user: *{registeredUsers}">
+							<td th:text="'Name:' + ${user.name}"> Name </td> 
+							<td th:text="'Email:' + ${user.email}"> Email </td>
+						</tr>
+					</table>
+				</div>
+
+				<div>
+					<p> Update User </p>
+					<form action="#" th:action="@{/admin/update_user}" th:object="${userEntity}" method="post">
+    				<p>Name: <input type="text" th:field="*{name}" /></p>
+    				<p>Email: <input type="text" th:field="*{email}" /></p>
+        		<p><input type="submit" value="Update" /></p>
+					</form>
+				</div>
+
+				
+				<div>
+					<p> Remove User </p>
+					<form action="#" th:action="@{/admin/remove_user}" th:object="${userEntity}" method="post">
+    				<p>Name: <input type="text" th:field="*{name}" /></p>
+    				<p>Email: <input type="text" th:field="*{email}" /></p>
+        		<p><input type="submit" value="Remove" /></p>
+					</form>
+				</div>
       </div>
     </div>
   </div>
 </div>
 
+
+
+<!-- TODO Implement Customer controls -->
 <div class="accordion" id="accordionExample">
   <div class="card">
     <div class="card-header" id="headingOne">
@@ -102,12 +133,14 @@
 
     <div id="customerForm" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia 
+				TODO: Implement customer config options
       </div>
     </div>
   </div>
 </div>
 
+
+<!-- TODO Implement Groups controls -->
 <div class="accordion" id="accordionExample">
   <div class="card">
     <div class="card-header" id="headingOne">
@@ -120,12 +153,13 @@
 
     <div id="groupsForm" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia 
+				TODO: Implement group config options
       </div>
     </div>
   </div>
 </div>
 
+<!-- Implement Itinerary control options -->
 <div class="accordion" id="accordionExample">
   <div class="card">
     <div class="card-header" id="headingOne">
@@ -138,12 +172,13 @@
 
     <div id="itinerariesForm" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia 
+				TODO: Implement itinerary control options
       </div>
     </div>
   </div>
 </div>
 
+<!-- TODO: Implement Orders Configurations -->
 <div class="accordion" id="accordionExample">
   <div class="card">
     <div class="card-header" id="headingOne">
@@ -156,7 +191,7 @@
 
     <div id="ordersForm" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia 
+				TODO: Implement orders control options
       </div>
     </div>
   </div>

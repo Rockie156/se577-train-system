@@ -28,8 +28,17 @@ public class UserEntity {
         this.id = id;
     }
 
+    public UserEntity(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -50,6 +59,10 @@ public class UserEntity {
 
     public long getExternalId() {
         return externalId;
+    }
+
+    public void setExternalId(Long externalId) {
+        this.externalId =  externalId;
     }
 
     @Override
