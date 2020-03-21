@@ -1,17 +1,8 @@
 @startuml
 title Checkout Sequence
+!include util.puml
 hide footbox
 autoactivate on
-
-!unquoted function MAKE_NOTE()
-note left
-Spring Boot
-Renders the view
-using the Model
-Model is passed
-in by SBF
-end note
-!endfunction
 
 actor "Browser" as client
 participant "Spring Boot Framework" as SB

@@ -1,0 +1,11 @@
+@startuml
+!unquoted function MAKE_NOTE()
+note left
+Spring Boot
+Renders the view
+using the Model
+Model is passed
+in by SBF
+end note
+!endfunction
+@enduml
