@@ -279,15 +279,47 @@ The admin adds  the message “Customer did not receive order. Shipped again.” to 
 THEN
 The order is updated
 ## [Manage User Profile - Billing](https://github.com/SaffatHasan/se577-train-system/issues/14)
+**GIVEN**
+- The User is logged in
+- The User is viewing the Manage Profile page
+- The user enters their billing information:
+  - Credit Card number
+  - Expiration Date
+  - Expiration Month
 
+**WHEN**
+- The User hits submit
+
+**THEN**
+- The User's default billing information is saved
+- The User is redirected to their previous page
 ## [Refactor to be setOrder instead of setOrder_Id](https://github.com/SaffatHasan/se577-train-system/issues/52)
 Could be refactored to be setOrder instead of setOrder_Id
 
 _Originally posted by @SaffatHasan in https://github.com/SaffatHasan/se577-train-system/pull/48_
 ## [Search - Filter By Date](https://github.com/SaffatHasan/se577-train-system/issues/34)
+**GIVEN**
+- The traveler is on the search page
+- The traveler selects a FROM station, a TO station, and selects a date of departure
 
+**WHEN**
+- The traveler hits submit
+
+**THEN**
+- The traveler is presented with the search results page with itineraries that are valid for the specified date of departure
 ## [Search - Multi-City](https://github.com/SaffatHasan/se577-train-system/issues/17)
-As a Traveler, I want to search for a ‘multi-city’ trip for a single ticket from Penn State to Philadelphia for Friday 1 week in the future and a return date of Friday in 2 weeks in the future.
+**GIVEN**
+- The User is on the Search page
+- The User selects the 'multi-city trip' option from the dropdown menu
+- The user selects a FROM station and a TO station and a date
+- The user then selects 'Add Segment'
+- The user selects a FROM station and a TO station and a date for the second segment
+
+**WHEN**
+- The User hits Submit
+
+**THEN**
+- The user is presented with matching itineraries for each segment with a SELECT button next to each matching itinerary for each segment
 ## [Search - Round Trip](https://github.com/SaffatHasan/se577-train-system/issues/18)
 GIVEN
 The Traveler has a working internet connection
