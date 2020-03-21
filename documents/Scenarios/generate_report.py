@@ -25,37 +25,49 @@ class Issue:
         self.body = collapse_lines(github_data['body'])
 
     def format(self):
-        title_str = "### {}".format(self.title)
+        title_str = "## {}".format(self.title)
         return "{}\n{}\n".format(title_str, self.body)
+
+    def generate_header(self):
+        link = "-".join(self.title.split())
+        return "  * [{}](#{})\n".format(self.title, link)
 
 
 def collapse_lines(string):
     string = ' '.join(string.split(' '))
     return re.sub(r'\r\n', '\n', string)
-    # return re.sub(r'\n\s*\n', '\n', string)
 
 
 def save():
     with open("User Stories.md", "w") as f:
-        f.write("# User Stories\n")
-
         open_issues = get_open_issues_from_github()
         closed_issues = get_closed_issues_from_github()
 
         open_issues.sort(key=lambda x: x.title)
         closed_issues.sort(key=lambda x: x.title)
 
-        f.write("## Closed Issues\n")
+        f.write("- [Closed](#Closed-Issues)\n")
+
+        for issue in closed_issues:
+            f.write(issue.generate_header())
+
+        f.write("- [Open](#Open-Issues)\n")
+
+        for issue in open_issues:
+            f.write(issue.generate_header())
+
+        f.write("# Closed Issues\n")
         for issue in closed_issues:
             f.write(issue.format())
 
-        f.write("## Open Issues\n")
+        f.write("# Open Issues\n")
         for issue in open_issues:
             f.write(issue.format())
 
 
 def main():
     save()
+
 
 if __name__ == "__main__":
     main()
