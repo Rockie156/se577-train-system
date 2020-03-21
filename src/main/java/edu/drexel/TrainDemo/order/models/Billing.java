@@ -1,4 +1,4 @@
-package edu.drexel.TrainDemo.checkout.models;
+package edu.drexel.TrainDemo.order.models;
 
 public class Billing {
     private String creditCard;

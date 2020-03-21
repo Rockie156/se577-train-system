@@ -2,8 +2,8 @@ package edu.drexel.TrainDemo.checkout.controllers;
 
 import edu.drexel.TrainDemo.cart.models.Cart;
 import edu.drexel.TrainDemo.cart.services.CartService;
-import edu.drexel.TrainDemo.checkout.models.Billing;
 import edu.drexel.TrainDemo.checkout.models.CheckoutError;
+import edu.drexel.TrainDemo.order.models.Billing;
 import edu.drexel.TrainDemo.order.models.OrderEntity;
 import edu.drexel.TrainDemo.order.services.OrderService;
 import org.springframework.stereotype.Controller;

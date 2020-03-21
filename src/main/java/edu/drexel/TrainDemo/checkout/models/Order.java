@@ -1,6 +1,7 @@
 package edu.drexel.TrainDemo.checkout.models;
 
 import edu.drexel.TrainDemo.cart.models.Cart;
+import edu.drexel.TrainDemo.order.models.Billing;
 
 public class Order {
     private Cart cart;

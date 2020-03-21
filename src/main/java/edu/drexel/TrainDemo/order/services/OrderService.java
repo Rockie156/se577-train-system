@@ -1,6 +1,6 @@
 package edu.drexel.TrainDemo.order.services;
 
-import edu.drexel.TrainDemo.checkout.models.Billing;
+import edu.drexel.TrainDemo.order.models.Billing;
 import edu.drexel.TrainDemo.order.models.ItineraryEntity;
 import edu.drexel.TrainDemo.order.models.OrderEntity;
 import edu.drexel.TrainDemo.order.models.SegmentEntity;
