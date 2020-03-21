@@ -1,5 +1,7 @@
 package edu.drexel.TrainDemo.order.models;
 
+import edu.drexel.TrainDemo.trips.models.entities.ItineraryEntity;
+
 import javax.persistence.*;
 import java.util.List;
 

@@ -1,14 +1,14 @@
 package edu.drexel.TrainDemo.order.services;
 
 import edu.drexel.TrainDemo.order.models.Billing;
-import edu.drexel.TrainDemo.order.models.ItineraryEntity;
 import edu.drexel.TrainDemo.order.models.OrderEntity;
-import edu.drexel.TrainDemo.order.models.SegmentEntity;
 import edu.drexel.TrainDemo.order.repositories.ItineraryRepository;
 import edu.drexel.TrainDemo.order.repositories.OrderRepository;
 import edu.drexel.TrainDemo.order.repositories.SegmentRepository;
 import edu.drexel.TrainDemo.trips.models.Itinerary;
 import edu.drexel.TrainDemo.trips.models.Segment;
+import edu.drexel.TrainDemo.trips.models.entities.ItineraryEntity;
+import edu.drexel.TrainDemo.trips.models.entities.SegmentEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
