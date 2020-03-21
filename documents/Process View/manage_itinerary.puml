@@ -1,89 +1,68 @@
 @startuml
-title Manage Itineraries
+!include util.puml
+title Manage Itineraries \n This is purely notional and not implemented
 
 autoactivate on
 actor "Browser" as C
 participant "Spring Boot Framework" as SBF
-participant TripController
-participant RouteModel
-participant TrainModel
-participant RouteView as TripView
-participant DB
+participant "AdminController" as controller
+participant "AdminService" as service
 
-note left of SBF
-precondition:
-admin is logged in
-end note
 
 ==View Itineraries As Admin==
-note left of SBF
-Admin navigates to the
-admin page and then selects
-"view trips"
-end note
-' Returns all trips in a view
 C -> SBF : GET("/admin/trip/view")
-SBF -> TripController : getAllRoutes()
-TripController -> RouteModel : getAllRoutes()
-RouteModel -> DB: execute()
+SBF -> controller : viewTrips(Model model)
+MAKE_NOTE()
+controller -> service : getTrips()
+service -> TripService : getAllTrips()
+return trips
+return trips
+controller -> Model : addAttribute(trips)
 return
-return List<Route>
-return List<Route>
-SBF -> TripView : getRoutesView()
-return Template
-return HTTP Response
+return "admin/view_trips"
+return admin/view_trips.html
 
 ==Add Stop==
-note left of SBF
-Admin views a particular
-route
-They select a station
-from a drop down
-and add a station to
-the end of a route as a stop
-end note
-C -> SBF : POST("/admin/trip/stop")
-SBF -> TripController : addStop(RouteID, StationID)
-TripController -> RouteModel : addStop(int, int, int, DateTime, DateTime)
-RouteModel -> DB : execute()
+C -> SBF : POST("/admin/trip/edit_trip")
+SBF -> controller : addStop()
+MAKE_NOTE()
+controller -> service : addStop()
+service -> TripService : addStop()
+TripService -> TripService : editTrip()
+return trip
+return trip
+return trip
+controller -> Model : addAttribute(trip)
 return
-return Route
-return Route
-SBF -> TripView : getRouteView()
-return Template
-return HTTP Response
+return "admin/edit_trip"
+return admin/edit_trip.html
 
 ==Manage Available Tickets==
-note left of SBF
-Admin navigates to "Manage Trains"
-Selects a train
-updates seats for the classes
-end note
-C -> SBF :POST("/admin/trip/train")
-SBF -> TripController : updateTrain(trainID)
-TripController -> TrainModel : update(Train)
-TrainModel -> DB : update()
+C -> SBF : POST("/admin/trip/train")
+SBF -> controller : editTrain()
+MAKE_NOTE()
+controller -> service : editTrain()
+service -> TripService : editTrain()
+return train
+return train
+controller -> Model : addAttribute(train)
 return
-return Train
-return Train
-SBF -> TripView : getRouteView()
-return Template
-return HTTP Response
+return "admin/edit_train"
+return admin/edit_train.html
 
-==Edit Route Info==
-note left of SBF
-Admin changes the departure time
-of a train at a particular station
-on a particular route
-end note
-C -> SBF : POST("/admin/trip/route")
-SBF -> TripController : updateRoute(routeID)
-TripController -> RouteModel : update()
-RouteModel -> DB : update()
+
+==Edit Trip Info==
+C -> SBF : POST("/admin/trip/edit_trip")
+SBF -> controller : editTripInfo()
+MAKE_NOTE()
+controller -> service : editTripInfo()
+service -> TripService : editTripInfo()
+TripService -> TripService : editTrip()
+return trip
+return trip
+return trip
+controller -> Model : addAttribute(trip)
 return
-return Route
-return Route
-SBF -> TripView : getRouteView()
-return Template
-return HTTP Response
+return "admin/edit_trip"
+return admin/edit_trip.html
 @enduml
