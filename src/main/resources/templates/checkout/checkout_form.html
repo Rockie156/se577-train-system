@@ -9,7 +9,7 @@
 <h1>Checkout Form</h1>
 <!--/*@thymesVar id="error" type="edu.drexel.TrainDemo.checkout.models.CheckoutError"*/-->
 <div class="alert alert-danger" th:if="${error}" th:text="${error.message}"/>
-<!--/*@thymesVar id="CustomerBilling" type="edu.drexel.TrainDemo.checkout.models.Billing"*/-->
+<!--/*@thymesVar id="CustomerBilling" type="edu.drexel.TrainDemo.order.models.Billing"*/-->
 <form id="userBillingForm" method="post" th:action="@{/checkout/submit}" th:object="${CustomerBilling}">
     <label>Credit Card</label>
     <input class="input-credit-card" th:field="*{creditCard}"/>
