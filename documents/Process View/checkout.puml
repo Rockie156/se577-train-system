@@ -5,65 +5,42 @@ autoactivate on
 
 actor "Browser" as client
 participant "Spring Boot Framework" as SB
-participant CustomerController
-participant UserService
-participant ShoppingCartController
-participant DataStore
-participant CheckOutController
-participant CheckOutView
 
+client -> SB : POST("/checkout")
 
-
-client -> SB : POST("/shop/checkout")
-
-== Customer Interaction ==
-SB -> CustomerController : getCurrentCustomer()
+SB -> CheckoutController : viewCheckoutForm()
 note left
 Exact interaction between
 Spring Boot Framework
 and Controllers hidden
 within Spring Boot
 end note
-CustomerController -> UserService : getRegisteredUser()
-return registeredUser
-alt registeredUser == NULL
-   CustomerController -> CustomerController : createGuest()
-   return guestCustomer
+
+CheckoutController -> Billing : Billing()
+return billing
+
+return "checkout/checkout_form"
+return "checkout/checkout_form"
+
+client-> SB : POST("/checkout/submit")
+SB -> CheckoutController : submitOrder
+CheckoutController -> Billing : getCreditCard()
+return billingCreditCard
+
+alt billingCreditCard == NULL
+   CheckoutController -> CheckoutError : CheckoutError(errorMessage)
+   return checkoutError
+'   CheckoutController --> SB : "redirect:/checkout"
 end
-return customerData
 
-== Shopping Cart Interaction ==
-SB -> ShoppingCartController : getShoppingCart()
-ShoppingCartController -> ShoppingCartController : session.getCartItems()
-return cartItems
-alt cart == NULL
-   ShoppingCartController -> DataStore : getCachedCartItems(User)
-   return cartItems
-end
-return cartItems
+CheckoutController -> CartService : getOrCreateCart
+return cart
+CheckoutController -> Order : Order(cart, billing)
+return order
 
-== Check Out Interaction ==
-SB -> CheckOutController : checkout(customerData, shoppingCartData)
-CheckOutController -> CheckOutModel : checkout(customerData, shoppingCartData)
-CheckOutModel -> StripePaymentService : completePayment(Billing)
-
+CheckoutController -> CheckoutController : resetCart()
 return
 return
-return model
-alt model.successfulCheckOut
-   SB -> CheckOutView : getSuccessfulCheckOutView()
-   note right
-      Exact interaction between Spring Boot Framework
-       and Views (observers or pub/sub) are hidden
-       within Spring Boot
-    end note
+return "checkout/checkout_sucesss"
 
-return Template
-else
-   SB -> CheckOutView : getFailureCheckOutView()
-   return Template
-
-end
-
-return HTTP Response
 @enduml
