@@ -3,44 +3,65 @@ title Checkout Sequence
 hide footbox
 autoactivate on
 
+!unquoted function MAKE_NOTE()
+note left
+Spring Boot
+Renders the view
+using the Model
+Model is passed
+in by SBF
+end note
+!endfunction
+
 actor "Browser" as client
 participant "Spring Boot Framework" as SB
-
+== View Checkout Form ==
 client -> SB : POST("/checkout")
 
-SB -> CheckoutController : viewCheckoutForm()
-note left
-Exact interaction between
-Spring Boot Framework
-and Controllers hidden
-within Spring Boot
-end note
+SB -> CheckoutController : viewCheckoutForm(Model model)
+MAKE_NOTE()
 
 CheckoutController -> Billing : Billing()
 return billing
 
-return "checkout/checkout_form"
-return "checkout/checkout_form"
+CheckoutController -> Model : addAttribute(billing)
+return
 
+return "checkout/checkout_form"
+return checkout/checkout_form.html
+
+== Submit Checkout Form ==
 client-> SB : POST("/checkout/submit")
-SB -> CheckoutController : submitOrder
+SB -> CheckoutController : submitOrder(Model model)
+MAKE_NOTE()
 CheckoutController -> Billing : getCreditCard()
 return billingCreditCard
 
 alt billingCreditCard == NULL
    CheckoutController -> CheckoutError : CheckoutError(errorMessage)
+   note left
+   User is
+   redirected to
+   /checkout
+   end note
+
    return checkoutError
+
 '   CheckoutController --> SB : "redirect:/checkout"
 end
 
 CheckoutController -> CartService : getOrCreateCart
 return cart
 CheckoutController -> Order : Order(cart, billing)
-return order
+return newOrder
 
 CheckoutController -> CheckoutController : resetCart()
 return
+
+CheckoutController -> Model : addAttribute(newOrder)
 return
-return "checkout/checkout_sucesss"
+
+return "checkout/checkout_success"
+return checkout/checkout_success.html
 
 @enduml
