@@ -1,0 +1,36 @@
+@startuml
+title Search Sequence Diagram
+autoactivate on
+actor "Browser" as client
+participant "Spring Boot Framework" as SB
+!unquoted function MAKE_NOTE()
+note left
+Spring Boot
+Renders the view
+using the Model
+Model is passed
+in by SBF
+end note
+!endfunction
+
+client -> SB : POST["/trips/search/submit"]
+SB -> TripController : submitSearchTrips(TripSearchRequest searchRequest, Model model)
+MAKE_NOTE()
+TripController -> TripService : getMatchingTrips(searchRequest)
+
+TripService -> TripService : searchGraph(fromStation, toStation)
+alt if graph == null
+TripService -> TripService : createGraph()
+return graph
+end alt
+return iPaths
+
+TripService -> TripService : pathsToItineraries()
+return validItineraries
+return validItineraries
+TripController -> Model : addAttribute(validItineraries)
+return
+return "trips/search_trip_result"
+return trips/search_trip_result.html
+
+@enduml
