@@ -23,9 +23,10 @@ class Issue:
     def __init__(self, github_data):
         self.title = github_data['title']
         self.body = collapse_lines(github_data['body'])
+        self.url = github_data['html_url']
 
     def format(self):
-        title_str = "## {}".format(self.title)
+        title_str = "## [{}]({})".format(self.title, self.url)
         return "{}\n{}\n".format(title_str, self.body)
 
     def generate_header(self):
@@ -40,18 +41,19 @@ def collapse_lines(string):
 
 def save():
     with open("User Stories.md", "w") as f:
+        f.write("# Table of Contents\n")
         open_issues = get_open_issues_from_github()
         closed_issues = get_closed_issues_from_github()
 
         open_issues.sort(key=lambda x: x.title)
         closed_issues.sort(key=lambda x: x.title)
 
-        f.write("- [Closed](#Closed-Issues)\n")
+        f.write("- [Closed Issues](#Closed-Issues)\n")
 
         for issue in closed_issues:
             f.write(issue.generate_header())
 
-        f.write("- [Open](#Open-Issues)\n")
+        f.write("- [Open Issues](#Open-Issues)\n")
 
         for issue in open_issues:
             f.write(issue.generate_header())
