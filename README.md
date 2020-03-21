@@ -1,8 +1,16 @@
-# Train Demo
+# Train-Ticket System
 
-Train Demo is a web application that simulates planning a trip and purchasing tickets for a train or bus ride. It uses real Amtrak data retrieved via a [FOIA request](https://www.muckrock.com/foi/united-states-of-america-10/machine-readable-amtrak-schedules-fares-and-stoproute-alignments-25904/). It is only partially implemented. The remaining features are left as an exercise.
+Train-Ticket System is a web application that simulates planning a trip and purchasing tickets for a train or bus ride. It uses real Amtrak data retrieved via a [FOIA request](https://www.muckrock.com/foi/united-states-of-america-10/machine-readable-amtrak-schedules-fares-and-stoproute-alignments-25904/). It is only partially implemented. The remaining features are left as an exercise.
 
 [![Build Status](https://travis-ci.com/SaffatHasan/se577-train-system.svg?branch=master)](https://travis-ci.com/SaffatHasan/se577-train-system)
+
+## Contributors
+
+* Alisha Fnu
+* Shaquille Hall
+* Saffat Hasan
+* Ernst Pisch
+* Jessica Young
 
 ## Getting Started
 
@@ -54,7 +62,7 @@ Below are most of the technologies used in this project. This project intentiona
 
 - Twitter Bootstrap - The current HTML index.html is written using [Bootstrap](https://getbootstrap.com/docs/4.4/)'s styling. Bootstrap is an easy way to create a professional looking website.
 
-## Vocab
+## Glossary
 
 These are terms used in this project. The following come from our Amtrak data.
 
@@ -68,8 +76,6 @@ These are terms used in this project. The following come from our Amtrak data.
 
 5. __Segment__ - A subset of a Trip
 
-To complete this application, you will have to introduce many new terms to describe concepts in your system. I suggest a few here.
-
 5. __Connection__ - A connection connects two segments together at a specific stop. For example, to get from AAA to CCC, you may have to take a trip from AAA to BBB, then another from BBB to CCC. We would say you have a connection at BBB.
 
 6. __Path__ - A path describes how a customer would actually get from stop A to B. So (at a minimum) a path would include a departure date and time, a set of trips, and a set of connections.
@@ -80,7 +86,7 @@ To complete this application, you will have to introduce many new terms to descr
 
 ## Design
 
-In progress.
+Can be seen in the documentation folder. The documentation is structured into the [4+1 view](https://en.wikipedia.org/wiki/4%2B1_architectural_view_model).
 
 ## Use Cases
 
