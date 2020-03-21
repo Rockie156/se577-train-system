@@ -1,7 +1,4 @@
-package edu.drexel.TrainDemo.order.models;
-
-import edu.drexel.TrainDemo.trips.models.entities.StationEntity;
-import edu.drexel.TrainDemo.trips.models.entities.TripEntity;
+package edu.drexel.TrainDemo.trips.models.entities;
 
 import javax.persistence.*;
 
