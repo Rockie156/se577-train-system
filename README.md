@@ -64,7 +64,7 @@ Below are most of the technologies used in this project. This project intentiona
 
 ## Glossary
 
-These are terms used in this project. The following come from our Amtrak data.
+These are terms used in this project.
 
 1. __Agency__ - An agency is an organization that provides transportation services. Usually this is just Amtrak.
 
@@ -74,7 +74,7 @@ These are terms used in this project. The following come from our Amtrak data.
 
 4. __Route__ - A route represents the physical tracks a train runs on. A route has many trips. In most cases, each of a route's trips have the same stops, but there is no guarantee of this. A route is operated by an agency.
 
-5. __Segment__ - A subset of a Trip
+5. __Segment__ - A subset of a Trip. For example, if a trip has stops A->B->C->D, then a Segment could be the subset [A->B] or [A->D].
 
 5. __Connection__ - A connection connects two segments together at a specific stop. For example, to get from AAA to CCC, you may have to take a trip from AAA to BBB, then another from BBB to CCC. We would say you have a connection at BBB.
 
@@ -91,3 +91,4 @@ Can be seen in the documentation folder. The documentation is structured into th
 ## Use Cases
 
 To see which use cases are complete, please check the [project board](https://github.com/SaffatHasan/se577-train-system/projects/1).
+The auto-generated use case report exists [here](https://github.com/SaffatHasan/se577-train-system/blob/master/documents/Scenarios/User%20Stories.md) and can be recreated by running [this](https://github.com/SaffatHasan/se577-train-system/blob/master/documents/Scenarios/source/generate_report.py) script.
