@@ -34,6 +34,12 @@ Train-Ticket System is a web application that simulates planning a trip and purc
 
 8. Visit `localhost:8080` in a browser.
 
+## Accessing Admin and User Specific Pages
+
+1. For admin: `localhost:8080/admin`
+
+2. For user: `localhost:8080`
+
 ## Authentication
 
 Authentication is performed using GitHub. For more info on how this works see [here](https://spring.io/guides/tutorials/spring-boot-oauth2/). You will have to add a new app to your GitHub account before you can run this application.
