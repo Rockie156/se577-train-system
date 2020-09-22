@@ -50,7 +50,7 @@ Authentication is performed using GitHub. For more info on how this works see [h
 > 
 > The OAuth redirect URI is the path in the application that the end-user’s user-agent is redirected back to after they have authenticated with GitHub and have granted access to the application on the Authorize application page.
  
-Don't forget to set the `client-id` and `client-secret` in your `application.properites`. Do not commit these keys to source control. 
+Don't forget to set the `client-id` and `client-secret` in your `application.properties`. Do not commit these keys to source control. 
 
 ## Technology
 
